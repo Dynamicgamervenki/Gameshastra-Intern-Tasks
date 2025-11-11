@@ -33,6 +33,7 @@ public class Player2D : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
+
     private void Update()
     {
         moveInput = inputSystemActions.Player.Move.ReadValue<Vector2>();
@@ -40,8 +41,6 @@ public class Player2D : MonoBehaviour
         //horizontalAxis = Input.GetAxis("Horizontal");
         horizontalAxis = moveInput.x;
         movementInput = new Vector2(horizontalAxis, rb.linearVelocityY).normalized;
-
-        Debug.Log("rb.linearVelocity : " +  rb.linearVelocity);
 
     }
 

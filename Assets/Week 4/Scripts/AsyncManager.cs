@@ -27,10 +27,11 @@ public class AsyncManager : MonoBehaviour
 
         while(!asyncOperation.isDone)
         {
-            float PorgressValue = Mathf.Clamp01(asyncOperation.progress);
+            float PorgressValue = Mathf.Clamp01(asyncOperation.progress/0.9f);
             loadingSlider.value = PorgressValue;
             yield return null;
         }
     }
+
 
 }

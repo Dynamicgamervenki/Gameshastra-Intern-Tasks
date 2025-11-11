@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Transform SpawnTransform;
     [SerializeField] private float shootTimer = 1.0f;
 
+
     private void Start()
     {
         target = FindFirstObjectByType<Player2D>().gameObject;
@@ -52,5 +53,9 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    private void Patrol()
+    {
+
+    }
 }
 

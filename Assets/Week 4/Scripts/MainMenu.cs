@@ -27,6 +27,7 @@ public class MainMenu : MonoBehaviour
         MainMenuScreen.SetActive(false);
         LoadingScreen.SetActive(true);
         asyncManager.Init(LevelToLoad,slider);
+        
     }
 
     private void QuitGame()
