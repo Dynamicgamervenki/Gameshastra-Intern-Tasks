@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class EnemtAnimator : MonoBehaviour
 {
-
-
     private const string IS_WALKING = "IsWalking";
 
 
@@ -22,7 +20,8 @@ public class EnemtAnimator : MonoBehaviour
 
     private void Update()
     {
-        animator.SetBool(IS_WALKING, enemy.currentState == EnemyState.Patrol || enemy.currentState == EnemyState.Chase);
+        if(animator && enemy)
+            animator.SetBool(IS_WALKING, enemy.currentState == EnemyState.Patrol || enemy.currentState == EnemyState.Chase);
     }
 
 }

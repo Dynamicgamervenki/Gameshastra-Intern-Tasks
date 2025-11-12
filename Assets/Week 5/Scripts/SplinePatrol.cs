@@ -10,7 +10,8 @@ public class SplinePatrol : MonoBehaviour
     private Vector3 tangent;
     private float splineLength;
 
-    private void Start()
+
+    public void GetSplineLength()
     {
         if (spline != null)
         {
@@ -24,7 +25,7 @@ public class SplinePatrol : MonoBehaviour
         this.patrolSpeed = patrolSpeed;
     }
 
-    public void MoveAlongSpline()
+    public void MoveAlongSpline(Transform target)
     {
         if (spline == null) return;
 
@@ -44,7 +45,7 @@ public class SplinePatrol : MonoBehaviour
         }
 
         Vector3 currentPosition = spline.EvaluatePosition(distancePercentage);
-        transform.position = currentPosition;
+        target.position = currentPosition;
 
         tangent = spline.EvaluateTangent(distancePercentage);
 
@@ -53,7 +54,7 @@ public class SplinePatrol : MonoBehaviour
 
         if (tangent != Vector3.zero)
         {
-            transform.rotation = Quaternion.LookRotation(tangent);
+            target.rotation = Quaternion.LookRotation(tangent);
         }
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine.Splines;
 
 public class PatrolEnemy : EnemyBase,IPatrol
 {
-    public SplinePatrol splinePatrol;
+   // public SplinePatrol splinePatrol;
 
     [SerializeField] private SplineContainer spline;
     [SerializeField] private float patrolSpeed = 2f;
@@ -14,7 +14,7 @@ public class PatrolEnemy : EnemyBase,IPatrol
     {
         base.Start();
         currentState = EnemyState.Patrol;
-        splinePatrol.Init(spline, patrolSpeed);
+  //      splinePatrol.Init(spline, patrolSpeed);
     }
 
     protected override void Update()
@@ -27,15 +27,34 @@ public class PatrolEnemy : EnemyBase,IPatrol
         base.HandleEnemyStates();
         switch (currentState)
         {
-            case EnemyState.Patrol :
-                Patrol();
-                break;
+            //case EnemyState.Patrol :
+            //    Patrol(spline,patrolSpeed);
+            //    break;
         }
     }
- 
-    public void Patrol()
+
+    public SplineContainer GetSplineContainer()
     {
-        isPatroling = true;
-        splinePatrol.MoveAlongSpline();
+        return spline;
     }
+
+    public float GetPatrolSpeed()
+    {
+        return patrolSpeed;
+    }
+
+    //public void Patrol(SplineContainer splineContainer, float patrolSpeed = 2)
+    //{
+    //    throw new System.NotImplementedException();
+    //}
+
+    //public void Patrol()
+    //{
+    //    isPatroling = true;
+    //    splinePatrol.MoveAlongSpline();
+    //}
+
+
+
+
 }

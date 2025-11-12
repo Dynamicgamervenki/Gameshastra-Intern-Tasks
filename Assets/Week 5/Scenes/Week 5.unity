@@ -1221,7 +1221,7 @@ GameObject:
   - component: {fileID: 1242589745}
   m_Layer: 0
   m_Name: Floor
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1311,6 +1311,52 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 100, y: 1, z: 100}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1350453865
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1350453867}
+  - component: {fileID: 1350453866}
+  m_Layer: 0
+  m_Name: EnemyManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1350453866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1350453865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03c98f2ca41de3a479d0782f59e55509, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Enemies: []
+  PatrolEnemies: []
+--- !u!4 &1350453867
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1350453865}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 11.3165655, y: 17.729023, z: -45.50931}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1998,6 +2044,7 @@ GameObject:
   - component: {fileID: 2038496830}
   - component: {fileID: 2038496831}
   - component: {fileID: 2038496832}
+  - component: {fileID: 2038496833}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -2034,11 +2081,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 20
-  jumpForce: 10
+  jumpForce: 25000
   rotationSpeed: 10
   SpeedIncrement: 0.1
   Ovverride: 1
   spinningSpeed: 30
+  gameInput: {fileID: 2038496833}
   leveltoLoad: 4
 --- !u!54 &2038496831
 Rigidbody:
@@ -2090,6 +2138,18 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0.67, z: 0}
+--- !u!114 &2038496833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2038496828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4dda068dfda3cf40972fa41bca0f0b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2059798444
 GameObject:
   m_ObjectHideFlags: 0
@@ -2198,17 +2258,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2059798444}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1368194679025344690 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9179527746237359492, guid: 15928babd1649934abb59e86f09d484c, type: 3}
-  m_PrefabInstance: {fileID: 6122367925583380493}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 564acb5b390f01245b896b31fe4a6a86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1838680151861151066
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2293,7 +2342,7 @@ PrefabInstance:
     - target: {fileID: 130146301171408059, guid: 15928babd1649934abb59e86f09d484c, type: 3}
       propertyPath: splinePatrol
       value: 
-      objectReference: {fileID: 1368194679025344690}
+      objectReference: {fileID: 0}
     - target: {fileID: 130146301171408059, guid: 15928babd1649934abb59e86f09d484c, type: 3}
       propertyPath: playerMask.m_Bits
       value: 64
@@ -2427,3 +2476,4 @@ SceneRoots:
   - {fileID: 1368188061}
   - {fileID: 1532070463}
   - {fileID: 353780446}
+  - {fileID: 1350453867}

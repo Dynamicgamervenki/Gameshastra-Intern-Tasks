@@ -9288,3 +9288,47 @@ Memory consumption went from 184.4 MB to 174.5 MB.
 Total: 21.633000 ms (FindLiveObjects: 1.262400 ms CreateObjectMapping: 1.392500 ms MarkObjects: 8.940400 ms  DeleteObjects: 10.036500 ms)
 
 Prepare: number of updated asset objects reloaded= 0
+========================================================================
+Received Import Request.
+  Time since last request: 7117.146957 seconds.
+  path: Assets/Week 5/Scripts/PatrolEnemy.cs
+  artifactKey: Guid(01658458141f1c34dad51e8a8e5b8aee) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/Week 5/Scripts/PatrolEnemy.cs using Guid(01658458141f1c34dad51e8a8e5b8aee) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: 'c4c73dbdf96dacf8afa8ba70f8409985') in 0.9524205 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000035 seconds.
+  path: Assets/Week 1/Scripts/Cube.cs
+  artifactKey: Guid(942a960f81d71ce4782dd68e4e50db91) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/Week 1/Scripts/Cube.cs using Guid(942a960f81d71ce4782dd68e4e50db91) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: 'c430b3cb3e2de6dfc1479a1c272042ea') in 0.0048374 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000026 seconds.
+  path: Assets/Week 5/Scenes/Week 5.unity
+  artifactKey: Guid(c1e11db2ec80c3b4198771e2c3b89875) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/Week 5/Scenes/Week 5.unity using Guid(c1e11db2ec80c3b4198771e2c3b89875) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '67fc21b9274836391934c1e7fa7e45fe') in 0.0125769 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000037 seconds.
+  path: Assets/Week 5/Scripts/EnemyBase.cs
+  artifactKey: Guid(540b4cf6efcfca244802a11302b05f0b) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/Week 5/Scripts/EnemyBase.cs using Guid(540b4cf6efcfca244802a11302b05f0b) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '936ef1338ffbe265e873f3b809d36160') in 0.0058706 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000018 seconds.
+  path: Assets/Week 5/Scripts/EnemyAnimator.cs
+  artifactKey: Guid(bf65b10b058f79343a84ba8ca90edb9a) Importer(2089858483,192608db42251d675da83286b1cce702)
+Start importing Assets/Week 5/Scripts/EnemyAnimator.cs using Guid(bf65b10b058f79343a84ba8ca90edb9a) Importer(2089858483,192608db42251d675da83286b1cce702) (ScriptedImporter) -> (artifact id: '043e037d1b2dbef90b6e5397d5be78e9') in 0.0044721 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
+
+Editor requested this worker to shutdown with reason: Scaling down because of idle timeout
+AssetImportWorker is now disconnected from the server
+Process exiting
+Exiting without the bug reporter. Application will terminate with return code 0

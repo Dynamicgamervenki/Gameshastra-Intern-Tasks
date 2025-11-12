@@ -5,7 +5,7 @@ using UnityEngine.Splines;
 
 public class EliteEnemy : EnemyBase,IPatrol,IAttackable
 {
-    public SplinePatrol splinePatrol;
+   // public SplinePatrol splinePatrol;
     public float attackRange = 2f;
     public bool canAttack = false;
 
@@ -18,7 +18,7 @@ public class EliteEnemy : EnemyBase,IPatrol,IAttackable
     {
         base.Start();
         currentState = EnemyState.Patrol;
-        splinePatrol.Init(spline, patrolSpeed);
+        //splinePatrol.Init(spline, patrolSpeed);
     }
 
     protected override void Update()
@@ -36,23 +36,24 @@ public class EliteEnemy : EnemyBase,IPatrol,IAttackable
         base.HandleEnemyStates();
         switch (currentState)
         {
-            case EnemyState.Patrol:
-                Patrol();
-                break;
+            //case EnemyState.Patrol:
+            //    Patrol();
+            //    break;
             case EnemyState.Attack:
                 Attack();
                 break;
         }
     }
 
-    public void Patrol()            //Interface Method
-    {
-        isPatroling = true;
-        splinePatrol.MoveAlongSpline();
-    }
+    //public void Patrol()            //Interface Method
+    //{
+    //    isPatroling = true;
+    //    //splinePatrol.MoveAlongSpline();
+    //}
 
     public void Attack()            //Interface Method
     {
+        transform.forward = Vector3.Slerp(transform.forward, target.transform.position, Time.deltaTime * 30);
         target.transform.localScale = new Vector3(0.1f,0.1f, 0.1f);
         target.SendMessage("TestingDead");
     }
@@ -63,4 +64,13 @@ public class EliteEnemy : EnemyBase,IPatrol,IAttackable
         Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 
+    public SplineContainer GetSplineContainer()
+    {
+        return spline;
+    }
+
+    public float GetPatrolSpeed()
+    {
+        return patrolSpeed;
+    }
 }

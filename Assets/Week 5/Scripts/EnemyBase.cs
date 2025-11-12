@@ -13,8 +13,12 @@ public class EnemyBase : MonoBehaviour
 
     public LayerMask playerMask;
 
+    public EnemyController enemyManager;
+
     protected virtual void Start()
     {
+        enemyManager = GameObject.Find("EnemyManager").GetComponent<EnemyController>();
+        enemyManager.AddToEnemyList(this);
         target = GameObject.FindGameObjectWithTag("Player");
     }
 
