@@ -1,13 +1,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class EnemyController : MonoBehaviour
 {
     public List<EnemyBase> Enemies;
     //public List<EnemyBase> PatrolEnemies;
 
-    public Dictionary<EnemyBase, SplinePatrol> enemyData = new Dictionary<EnemyBase, SplinePatrol>();
+   //[SerializedDictionary("Enemy","Spline")]
+    public SerializedDictionary<EnemyBase, SplinePatrol> enemyData = new SerializedDictionary<EnemyBase, SplinePatrol>();
 
     bool isPatroling = false;
 
