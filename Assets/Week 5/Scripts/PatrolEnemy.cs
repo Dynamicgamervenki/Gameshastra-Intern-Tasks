@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Splines;
 
-public class PatrolEnemy : EnemyBase
+public class PatrolEnemy : EnemyBase,IPatrol
 {
     public SplinePatrol splinePatrol;
 
@@ -32,8 +32,8 @@ public class PatrolEnemy : EnemyBase
                 break;
         }
     }
-
-    private void Patrol()
+ 
+    public void Patrol()
     {
         isPatroling = true;
         splinePatrol.MoveAlongSpline();

@@ -11,6 +11,8 @@ public class Cube : MonoBehaviour
     [SerializeField]
     private float jumpForce = 10.0f;
     [SerializeField]
+    private float rotationSpeed = 10.0f;
+    [SerializeField]
     private float SpeedIncrement = 0.1f;
     [SerializeField]
     bool Ovverride = false;
@@ -19,6 +21,15 @@ public class Cube : MonoBehaviour
 
     Rigidbody rb;
     private bool isGrounded = true;
+
+    private bool isMoving = false;
+
+    public int leveltoLoad = 0;
+
+    public bool IsMoving()
+    {
+       return isMoving;
+    }
 
     private void Start()
     {
@@ -38,24 +49,33 @@ public class Cube : MonoBehaviour
               Jump();
         }
 
+        if(newMove != Vector3.zero && Ovverride)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(newMove);
+            rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime));
+        }
+
     }
     Vector3 newMove = Vector3.zero;
 
     private void MovementUsingOldInputSystem()
     {
-        this.newMove.z = Input.GetAxis("Vertical");
-        newMove.x = Input.GetAxis("Horizontal");
+        newMove = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")).normalized;  
 
 
-
-        if(UiManager.Instance && UiManager.Instance.CountdownOver || Ovverride)
+        if (UiManager.Instance && UiManager.Instance.CountdownOver || Ovverride)
         {
-            transform.Translate(newMove * moveSpeed * Time.deltaTime);
+           // transform.Translate(newMove * moveSpeed * Time.deltaTime);
+           rb.MovePosition(transform.position + newMove * moveSpeed * Time.deltaTime);
+           isMoving = newMove != Vector3.zero;
 
-            if(newMove.z != 0 || newMove.x != 0)
+            if (!Ovverride)
             {
-                RotateWhileMoving(newMove);
-                moveSpeed += SpeedIncrement * Time.deltaTime;
+                if(newMove.z != 0 || newMove.x != 0)
+                {
+                    RotateWhileMoving(newMove);
+                    moveSpeed += SpeedIncrement * Time.deltaTime;
+                }
             }
         }
 
@@ -65,6 +85,11 @@ public class Cube : MonoBehaviour
     {
             rb.AddForce(new Vector3(0, jumpForce * Time.deltaTime, 0));
       // rb.AddForce(Vector3.up * jumpForce * Time.deltaTime);
+    }
+
+    public void TestingDead()
+    {
+        StartCoroutine(Dead());
     }
 
     IEnumerator Dead()
@@ -82,7 +107,7 @@ public class Cube : MonoBehaviour
             camera.ShakeCamera();
 
         yield return new WaitForSeconds(1.2f);
-        SceneManager.LoadScene(SceneManager.loadedSceneCount);
+        SceneManager.LoadScene(leveltoLoad);
     }
 
     private void OnCollisionEnter(Collision collision)

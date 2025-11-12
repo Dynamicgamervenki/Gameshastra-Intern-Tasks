@@ -15,14 +15,14 @@ public class EnemtAnimator : MonoBehaviour
     private Animator animator;
 
 
-    private void Awake()
+    private void Start()
     {
         animator = GetComponent<Animator>();
     }
 
     private void Update()
     {
-        animator.SetBool(IS_WALKING, enemy.currentState == EnemyState.Patrol);
+        animator.SetBool(IS_WALKING, enemy.currentState == EnemyState.Patrol || enemy.currentState == EnemyState.Chase);
     }
 
 }
