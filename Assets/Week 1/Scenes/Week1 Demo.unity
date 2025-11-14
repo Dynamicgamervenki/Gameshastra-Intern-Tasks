@@ -293,6 +293,7 @@ GameObject:
   - component: {fileID: 131252875}
   - component: {fileID: 131252879}
   - component: {fileID: 131252880}
+  - component: {fileID: 131252881}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Player
@@ -403,6 +404,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 20
   jumpForce: 10000
+  rotationSpeed: 10
+  SpeedIncrement: 0.1
+  Ovverride: 0
+  spinningSpeed: 30
+  gameInput: {fileID: 131252881}
+  leveltoLoad: 0
 --- !u!54 &131252880
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -430,6 +437,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &131252881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 131252874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4dda068dfda3cf40972fa41bca0f0b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &180240101
 GameObject:
   m_ObjectHideFlags: 0
@@ -1844,6 +1863,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Target: {fileID: 131252874}
+  Offset: {x: 0, y: 0, z: 0}
 --- !u!114 &1817142975
 MonoBehaviour:
   m_ObjectHideFlags: 0

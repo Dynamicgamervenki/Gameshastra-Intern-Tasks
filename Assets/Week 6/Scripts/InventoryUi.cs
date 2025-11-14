@@ -9,7 +9,6 @@ public class InventoryUi : MonoBehaviour
     public Transform itemSlotContainer;
     public GameObject itemSlot;
 
-
     public void SetInventory(Inventory inventory)
     {
         this.inventory = inventory;
@@ -33,5 +32,22 @@ public class InventoryUi : MonoBehaviour
             quantityText.text = item.quantity.ToString();
         }
     }
+
+    bool inventoryOpen = false;
+    public void ToogleInventory()
+    {
+        if (!inventoryOpen)
+        {
+            inventoryOpen = true;
+            gameObject.SetActive(true);
+        }
+        else
+        {
+            inventoryOpen = false;
+            gameObject.SetActive(false);
+        }
+
+    }
+
 
 }

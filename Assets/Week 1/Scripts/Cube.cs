@@ -18,11 +18,16 @@ public class Cube : MonoBehaviour
     bool Ovverride = false;
     [SerializeField]
     float spinningSpeed = 30.0f;
+    [SerializeField]
+    private GameInput gameInput;
 
     Rigidbody rb;
     private bool isGrounded = true;
 
     private bool isMoving = false;
+
+    private Inventory inventory;
+    public InventoryUi inventoryUi;
 
     public int leveltoLoad = 0;
 
@@ -32,22 +37,43 @@ public class Cube : MonoBehaviour
     }
 
     private void Start()
+    {  
+      gameInput.OnJumpAction += GameInput_OnJumpAction;
+        gameInput.OnInventoryAction += GameInput_OnInventoryAction;
+        rb = GetComponent<Rigidbody>();
+
+        inventory = new Inventory();
+        inventoryUi.SetInventory(inventory);
+    }
+
+    private void GameInput_OnInventoryAction(object sender, EventArgs e)
     {
-      rb = GetComponent<Rigidbody>();
+        inventoryUi.ToogleInventory();
+    }
+
+
+    public void AddItemToInventory(Item item)
+    {
+        inventory.AddToList(item);
+        inventoryUi.RefreshInventoryItems();
+    }
+
+    private void GameInput_OnJumpAction(object sender, EventArgs e)
+    {
+        if ((isGrounded))
+        {
+            Jump();
+        }
     }
 
     private void Update()
     {
-        MovementUsingOldInputSystem();
+        MovementUsingNewInputSystem();
 
     }
 
     private void FixedUpdate()
     {
-        if (Input.GetKey(KeyCode.Space) && isGrounded)
-        {
-              Jump();
-        }
 
         if(newMove != Vector3.zero && Ovverride)
         {
@@ -58,10 +84,10 @@ public class Cube : MonoBehaviour
     }
     Vector3 newMove = Vector3.zero;
 
-    private void MovementUsingOldInputSystem()
+    private void MovementUsingNewInputSystem()
     {
-        newMove = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")).normalized;  
-
+       // newMove = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")).normalized;  
+       newMove = gameInput.GetMovementVectorNormalized();
 
         if (UiManager.Instance && UiManager.Instance.CountdownOver || Ovverride)
         {
@@ -73,7 +99,7 @@ public class Cube : MonoBehaviour
             {
                 if(newMove.z != 0 || newMove.x != 0)
                 {
-                    RotateWhileMoving(newMove);
+                  //  RotateWhileMoving(newMove);
                     moveSpeed += SpeedIncrement * Time.deltaTime;
                 }
             }
@@ -83,6 +109,7 @@ public class Cube : MonoBehaviour
 
     private void Jump()
     {
+        if(rb)
             rb.AddForce(new Vector3(0, jumpForce * Time.deltaTime, 0));
       // rb.AddForce(Vector3.up * jumpForce * Time.deltaTime);
     }
@@ -122,6 +149,7 @@ public class Cube : MonoBehaviour
             Quaternion reset = Quaternion.Euler(0, 0, 0);
             transform.rotation = Quaternion.Slerp(transform.localRotation, reset, 0.6f);
         }
+
     }
 
     private void OnCollisionExit(Collision collision)
@@ -137,6 +165,21 @@ public class Cube : MonoBehaviour
         GameObject child = gameObject.transform.GetChild(0).gameObject;
         child.transform.Rotate(Vector3.right * RotateIn.z * spinningSpeed * Time.deltaTime);
 
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.transform.TryGetComponent<ItemWorld>(out ItemWorld itemWorld))
+        {
+            Debug.LogError("ontriggerboom");
+              AddItemToInventory(itemWorld.GetItem());
+
+            if(inventory.isInventoryFull() && !itemWorld.IsStackable())
+            {
+                return;
+            }
+            Destroy(other.gameObject);
+        }
     }
 
 
