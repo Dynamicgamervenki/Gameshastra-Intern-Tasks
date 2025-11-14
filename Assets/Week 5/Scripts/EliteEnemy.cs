@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Splines;
 
-public class EliteEnemy : EnemyBase,IPatrol,IAttackable
+public class EliteEnemy : EnemyBase,IPatrol,IAttackable,IEnemy
 {
    // public SplinePatrol splinePatrol;
     public float attackRange = 2f;
@@ -72,5 +72,10 @@ public class EliteEnemy : EnemyBase,IPatrol,IAttackable
     public float GetPatrolSpeed()
     {
         return patrolSpeed;
+    }
+
+    public void Spawn(Vector3 position)
+    {
+        Debug.LogWarning("EliteEnemy Spawned");
     }
 }

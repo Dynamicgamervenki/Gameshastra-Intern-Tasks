@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class SycoEnemy : EnemyBase,IAttackable
+public class SycoEnemy : EnemyBase,IAttackable,IEnemy
 {
 
     public float chaseRange = 10f;
@@ -18,6 +18,7 @@ public class SycoEnemy : EnemyBase,IAttackable
 
     private bool attackDone = false;
 
+    public GameObject SycoEnemyPrefab;
     protected override void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
@@ -91,5 +92,8 @@ public class SycoEnemy : EnemyBase,IAttackable
         Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 
-
+    public void Spawn(Vector3 position)
+    {
+        Debug.LogWarning("Syco Enemy Spawned at : "+ position);
+    }
 }

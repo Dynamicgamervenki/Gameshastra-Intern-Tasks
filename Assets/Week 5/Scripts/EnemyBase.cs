@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using UnityEngine;
 
-public class EnemyBase : MonoBehaviour
+public abstract class EnemyBase : MonoBehaviour
 {
     protected int health = 100;
     protected int stamina = 100;
@@ -13,7 +13,16 @@ public class EnemyBase : MonoBehaviour
 
     public LayerMask playerMask;
 
-    public EnemyController enemyManager;
+    private EnemyController enemyManager;
+
+    //public abstract IEnemy CreateEnemy();
+
+    //public void SpawnEnemy(Vector3 position)
+    //{
+    //    IEnemy enemy = CreateEnemy();
+    //    enemy.Spawn(position);
+    //    UnityEngine.Debug.LogWarning("Enemy has been spawned !:)");
+    //}
 
     protected virtual void Start()
     {
