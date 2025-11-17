@@ -2,9 +2,10 @@ using System;
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
-public class Cube : MonoBehaviour
+public class Cube : MonoBehaviour 
 {
     [SerializeField]
     private float moveSpeed = 5.0f;
@@ -46,6 +47,11 @@ public class Cube : MonoBehaviour
         inventoryUi.SetInventory(inventory);
     }
 
+    public Inventory GetInventory()
+    {
+        return inventory;
+    }
+
     private void GameInput_OnInventoryAction(object sender, EventArgs e)
     {
         inventoryUi.ToogleInventory();
@@ -69,7 +75,6 @@ public class Cube : MonoBehaviour
     private void Update()
     {
         MovementUsingNewInputSystem();
-
     }
 
     private void FixedUpdate()
@@ -171,7 +176,6 @@ public class Cube : MonoBehaviour
     {
         if (other.transform.TryGetComponent<ItemWorld>(out ItemWorld itemWorld))
         {
-            Debug.LogError("ontriggerboom");
               AddItemToInventory(itemWorld.GetItem());
 
             if(inventory.isInventoryFull() && !itemWorld.IsStackable())
@@ -187,5 +191,7 @@ public class Cube : MonoBehaviour
         gameInput.OnJumpAction -= GameInput_OnJumpAction;
         gameInput.OnInventoryAction -= GameInput_OnInventoryAction;
     }
+
+
 
 }

@@ -8,14 +8,14 @@ public class Inventory
     private int maxSlots = 24;
 
     public event Action InventoryFull;
+    public event Action ItemRemovedFromInventory;
 
     public Inventory()
     {
          items = new List<Item>();
         AddToList(new Item { itemType = ItemType.HeaalthPotion,quantity = 1});
         AddToList(new Item { itemType = ItemType.Weapon,quantity = 1});
-        AddToList(new Item { itemType = ItemType.food,quantity = 1});
-        Debug.LogWarning("Inventory");
+       // Debug.LogWarning("Inventory");
        // Testing();
     }
 
@@ -74,5 +74,27 @@ public class Inventory
     {
         return items.Count >= maxSlots;
     }
+    
+    public int GetItemQuantity(Item item)
+    {
+        foreach(Item i in items)
+        {
+            if(i.itemType == item.itemType)
+                return i.quantity;
+        }
+        return 0;
+    }
 
+    public void RemoveItemFromInventoryList(Item item)
+    {
+        foreach (Item i in items)
+        {
+            if (i.itemType == item.itemType)
+            {
+                items.Remove(item);
+                ItemRemovedFromInventory?.Invoke();
+                return;
+            }
+        }
+    }
 }

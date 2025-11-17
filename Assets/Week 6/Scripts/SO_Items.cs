@@ -7,4 +7,5 @@ public class SO_Items : ScriptableObject
     public Sprite itemIcon;
     public ItemType itemType;
     public bool isStackable;
+    public ItemWorld item;
 }

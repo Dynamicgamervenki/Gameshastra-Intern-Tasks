@@ -9,10 +9,17 @@ public class InventoryUi : MonoBehaviour
     public Transform itemSlotContainer;
     public GameObject itemSlot;
 
+    private void OnEnable()
+    {
+        if(inventory != null)
+            inventory.ItemRemovedFromInventory += RefreshInventoryItems;    
+    }
+
     public void SetInventory(Inventory inventory)
     {
         this.inventory = inventory;
         RefreshInventoryItems();
+        inventory.ItemRemovedFromInventory += RefreshInventoryItems;
     }
 
     public void RefreshInventoryItems() 
@@ -30,6 +37,7 @@ public class InventoryUi : MonoBehaviour
             image.sprite = item.GetSprite();
             TextMeshProUGUI quantityText = itemGameObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
             quantityText.text = item.quantity.ToString();
+            itemGameObject.GetComponent<ItemSlot>().item = item;
         }
     }
 
@@ -48,6 +56,13 @@ public class InventoryUi : MonoBehaviour
         }
 
     }
+
+
+    private void OnDisable()
+    {
+            inventory.ItemRemovedFromInventory -= RefreshInventoryItems;    
+    }
+
 
 
 }
