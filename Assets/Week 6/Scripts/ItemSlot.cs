@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -15,11 +16,34 @@ public class ItemSlot : MonoBehaviour,IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        SpawnInFrontOfPlayer();
+        if (eventData.button == PointerEventData.InputButton.Right)
+            HandleRightClick();
+        else if (eventData.button == PointerEventData.InputButton.Left)
+            HandleLeftClick();
     }
 
-    private void SpawnInFrontOfPlayer()
+    private void HandleRightClick()
     {
+        RemoveTheItemFromInventoryAndSpawnInfronOfPlayer();
+    }
+
+    private void HandleLeftClick()
+    {
+        if (player.currentPlayerState == PlayerState.armed )
+        {
+            player.Unequip();
+        }
+        ItemWorld invenotryItem = item.GetItemPrefab();
+        player.EquipItem(invenotryItem);
+    }
+
+    private void RemoveTheItemFromInventoryAndSpawnInfronOfPlayer()
+    {
+        if (player.currentPlayerState == PlayerState.armed &&  item.itemType == player.GetEquiipedItem().itemType )
+        {
+            player.Unequip();
+        }
+
         Inventory inventory = player.GetInventory();
         Vector3 spawnPos = (player.transform.position + player.transform.forward * 5);
         spawnPos.y = 0.75f;

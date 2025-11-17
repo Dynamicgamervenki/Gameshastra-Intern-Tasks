@@ -6,6 +6,7 @@ public class GameInput : MonoBehaviour
     InputSystem_Actions inputActions;
     public event EventHandler OnJumpAction;
     public event EventHandler OnInventoryAction;
+    public event EventHandler OnEquipAction;
 
     private void Start()
     {
@@ -13,6 +14,12 @@ public class GameInput : MonoBehaviour
         inputActions.Player.Enable();
         inputActions.Player.Jump.performed += Jump_performed;
         inputActions.Player.Inventory.performed += Inventory_performed;
+        inputActions.Player.Equip.performed += Equip_performed;
+    }
+
+    private void Equip_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        OnEquipAction?.Invoke(this,EventArgs.Empty);
     }
 
     private void Inventory_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)

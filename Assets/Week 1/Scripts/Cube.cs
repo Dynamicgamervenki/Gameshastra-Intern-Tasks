@@ -30,7 +30,11 @@ public class Cube : MonoBehaviour
     private Inventory inventory;
     public InventoryUi inventoryUi;
 
+    public PlayerState currentPlayerState;
+
     public int leveltoLoad = 0;
+
+    private ItemWorld EquippedItem;
 
     public bool IsMoving()
     {
@@ -38,7 +42,8 @@ public class Cube : MonoBehaviour
     }
 
     private void Start()
-    {  
+    {
+        currentPlayerState = PlayerState.Unarmed;
         gameInput.OnJumpAction += GameInput_OnJumpAction;
         gameInput.OnInventoryAction += GameInput_OnInventoryAction;
         rb = GetComponent<Rigidbody>();
@@ -72,9 +77,10 @@ public class Cube : MonoBehaviour
         }
     }
 
+
     private void Update()
     {
-        MovementUsingNewInputSystem();
+        MovementUsingNewInputSystem();      
     }
 
     private void FixedUpdate()
@@ -111,6 +117,7 @@ public class Cube : MonoBehaviour
         }
 
     }
+
 
     private void Jump()
     {
@@ -178,7 +185,7 @@ public class Cube : MonoBehaviour
         {
               AddItemToInventory(itemWorld.GetItem());
 
-            if(inventory.isInventoryFull() && !itemWorld.IsStackable())
+            if(inventory.isInventoryFull() && !itemWorld.GetItem().IsStackable())
             {
                 return;
             }
@@ -193,5 +200,31 @@ public class Cube : MonoBehaviour
     }
 
 
+    public Transform weaponSocket;
+    public GameObject EquipItem(ItemWorld item)
+    {
+        if (!item.GetItem().canAttachToSocket() /*&& !EquippedItem */) return null;
 
+        EquippedItem =  Instantiate(item,weaponSocket.position,weaponSocket.rotation,weaponSocket);
+        currentPlayerState = PlayerState.armed;
+        return EquippedItem.gameObject;
+    }
+
+    public void Unequip()
+    {
+        Destroy(EquippedItem.gameObject);
+        currentPlayerState = PlayerState.Unarmed;
+    }
+
+    public ItemWorld GetEquiipedItem()
+    {
+        return EquippedItem;
+    }
+
+}
+
+public enum PlayerState
+{
+    Unarmed,
+    armed
 }

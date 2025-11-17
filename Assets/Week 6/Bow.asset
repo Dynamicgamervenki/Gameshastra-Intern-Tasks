@@ -17,3 +17,4 @@ MonoBehaviour:
   itemType: 6
   isStackable: 0
   item: {fileID: -7149306569616603792, guid: 352c5923a3c56c64f96778b26536bdc1, type: 3}
+  canAttackToSocket: 1

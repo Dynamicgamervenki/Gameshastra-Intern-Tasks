@@ -8,4 +8,5 @@ public class SO_Items : ScriptableObject
     public ItemType itemType;
     public bool isStackable;
     public ItemWorld item;
+    public bool canAttackToSocket;
 }

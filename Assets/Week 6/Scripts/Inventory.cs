@@ -7,7 +7,6 @@ public class Inventory
     private List<Item> items; 
     private int maxSlots = 24;
 
-    public event Action InventoryFull;
     public event Action ItemRemovedFromInventory;
 
     public Inventory()

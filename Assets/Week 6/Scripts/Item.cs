@@ -38,6 +38,31 @@ public class Item
         }
         return false;
     }
+
+    public ItemWorld GetItemPrefab()
+    {
+        foreach (SO_Items item in ItemData.instance.items)
+        {
+            if (item.itemType == itemType)
+            {
+                return item.item;
+            }
+        }
+        return null;
+    }
+
+    public bool canAttachToSocket()
+    {
+        foreach (SO_Items item in ItemData.instance.items)
+        {
+            if (item.itemType == itemType)
+            {
+                return item.canAttackToSocket;
+            }
+
+        }
+        return false;
+    }
 }
 
 public enum ItemType
