@@ -11,5 +11,15 @@ public class ItemData : MonoBehaviour
         instance = this;
     }
 
+    private void Start()
+    {
+        items = new List<SO_Items>();
+        SO_Items[] allObjects = Resources.LoadAll<SO_Items>("Data");
+        foreach (SO_Items obj in allObjects)
+        {
+            items.Add(obj);
+        }
+    }
+
 
 }

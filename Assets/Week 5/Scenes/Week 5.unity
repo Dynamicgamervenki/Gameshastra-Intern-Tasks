@@ -3294,12 +3294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cda62da6032610438d7f3aed3e7813e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  items:
-  - {fileID: 11400000, guid: 661d6691919dfc04fa5e2c369514fede, type: 2}
-  - {fileID: 11400000, guid: 12ca8565876a5ed42a75318974c2fe89, type: 2}
-  - {fileID: 11400000, guid: 8ee2c5c4bfee09b4fa9387312a6cc872, type: 2}
-  - {fileID: 11400000, guid: 452909841de7400429bb2d2aa08dbefc, type: 2}
-  - {fileID: 11400000, guid: e4f9376f36d2c874cacef94e1aaa6640, type: 2}
+  items: []
 --- !u!4 &1391104178
 Transform:
   m_ObjectHideFlags: 0
