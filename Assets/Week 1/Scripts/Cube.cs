@@ -29,6 +29,7 @@ public class Cube : MonoBehaviour
 
     private Inventory inventory;
     public InventoryUi inventoryUi;
+    private Item lastHoveredItem;
 
     public PlayerState currentPlayerState;
 
@@ -49,12 +50,21 @@ public class Cube : MonoBehaviour
         rb = GetComponent<Rigidbody>();
 
         inventory = new Inventory();
+        lastHoveredItem = inventory.GetItemsList()[0];
+
         inventoryUi.SetInventory(inventory);
+        inventoryUi.btn_equipItem.onClick.AddListener(EquipItem);
+        inventoryUi.btn_RemoveFromInventory.onClick.AddListener(RemoveTheItemFromInventoryAndSpawnInfronOfPlayer);
     }
 
     public Inventory GetInventory()
     {
         return inventory;
+    }
+
+    public InventoryUi GetInventoryUi()
+    {
+        return inventoryUi;
     }
 
     private void GameInput_OnInventoryAction(object sender, EventArgs e)
@@ -67,6 +77,8 @@ public class Cube : MonoBehaviour
     {
         inventory.AddToList(item);
         inventoryUi.RefreshInventoryItems();
+        inventoryUi.DefaultPreview();
+        lastHoveredItem = inventory.GetItemsList()[0];
     }
 
     private void GameInput_OnJumpAction(object sender, EventArgs e)
@@ -99,6 +111,7 @@ public class Cube : MonoBehaviour
     {
        // newMove = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")).normalized;  
        newMove = gameInput.GetMovementVectorNormalized();
+       // Debug.Log("newMove" + newMove);
 
         if (UiManager.Instance && UiManager.Instance.CountdownOver || Ovverride)
         {
@@ -201,13 +214,48 @@ public class Cube : MonoBehaviour
 
 
     public Transform weaponSocket;
-    public GameObject EquipItem(ItemWorld item)
-    {
-        if (!item.GetItem().canAttachToSocket() /*&& !EquippedItem */) return null;
 
-        EquippedItem =  Instantiate(item,weaponSocket.position,weaponSocket.rotation,weaponSocket);
+    public void EquipItem()
+    {
+        if (!lastHoveredItem.canAttachToSocket() /*&& !EquippedItem */) return;
+
+        if (currentPlayerState == PlayerState.armed)
+        {
+            Unequip();
+        }
+
+        EquippedItem =  Instantiate(lastHoveredItem.GetItemPrefab(), weaponSocket.position,weaponSocket.rotation,weaponSocket);
         currentPlayerState = PlayerState.armed;
-        return EquippedItem.gameObject;
+        //return EquippedItem.gameObject;
+    }
+
+    private void RemoveTheItemFromInventoryAndSpawnInfronOfPlayer()
+    {
+        if (currentPlayerState == PlayerState.armed && lastHoveredItem.itemType == GetEquiipedItem().itemType)
+        {
+            Unequip();
+        }
+
+        Vector3 spawnPos = (transform.position + transform.forward * 5);
+        spawnPos.y = 0.75f;
+
+        foreach (SO_Items i in ItemData.instance.items)
+        {
+            if (i.itemType == lastHoveredItem.itemType)
+            {
+                int quantity = inventory.GetItemQuantity(lastHoveredItem);
+                for (int j = 0; j < quantity; j++)
+                {
+                    Instantiate(i.item, spawnPos, Quaternion.identity);
+                    spawnPos.x += 2.0f;
+                }
+                inventory.RemoveItemFromInventoryList(lastHoveredItem);
+                inventoryUi.DefaultPreview();
+                if (inventory.IsInventoryEmpty()) { lastHoveredItem = null; return; }
+                lastHoveredItem = inventory.GetItemsList()[0];
+                return;
+            }
+        }
     }
 
     public void Unequip()
@@ -219,6 +267,11 @@ public class Cube : MonoBehaviour
     public ItemWorld GetEquiipedItem()
     {
         return EquippedItem;
+    }
+
+    public void SetLastHoveredItem(Item lastHoveredItem)
+    {
+        this.lastHoveredItem = lastHoveredItem;
     }
 
 }

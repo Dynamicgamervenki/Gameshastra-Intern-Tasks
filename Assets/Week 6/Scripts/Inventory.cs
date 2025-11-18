@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Inventory
 {
@@ -8,6 +9,7 @@ public class Inventory
     private int maxSlots = 24;
 
     public event Action ItemRemovedFromInventory;
+
 
     public Inventory()
     {
@@ -17,6 +19,8 @@ public class Inventory
        // Debug.LogWarning("Inventory");
        // Testing();
     }
+
+
 
     void Testing()
     {
@@ -95,5 +99,15 @@ public class Inventory
                 return;
             }
         }
+    }
+
+    public bool IsInventoryEmpty()
+    {
+        return items.Count == 0;
+    }
+
+    public Item GetLastItemFromList()
+    {
+        return items[items.Count - 1];
     }
 }

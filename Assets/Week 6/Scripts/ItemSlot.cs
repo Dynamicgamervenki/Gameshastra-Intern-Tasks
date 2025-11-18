@@ -3,67 +3,33 @@ using System.Net;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ItemSlot : MonoBehaviour,IPointerClickHandler
+public class ItemSlot : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
 {
-    public Item item;
+    private Item item;
     private Cube player;
+    private InventoryUi inventoryUi;
 
     private void Start()
     {
         player = GameObject.Find("Player").GetComponent<Cube>();
+        inventoryUi = player.GetInventoryUi();
     }
 
-
-    public void OnPointerClick(PointerEventData eventData)
+    private Item lastHoveredItem;
+    public void OnPointerEnter(PointerEventData eventData)
     {
-        if (eventData.button == PointerEventData.InputButton.Right)
-            HandleRightClick();
-        else if (eventData.button == PointerEventData.InputButton.Left)
-            HandleLeftClick();
+        inventoryUi.SetPreview(item.GetSprite(),item.GetItemName());
     }
 
-    private void HandleRightClick()
+    public void OnPointerExit(PointerEventData eventData)
     {
-        RemoveTheItemFromInventoryAndSpawnInfronOfPlayer();
+        lastHoveredItem = this.item;
+        player.SetLastHoveredItem(lastHoveredItem);
+      //  Debug.LogWarning("lastHoveredItem : " + lastHoveredItem.GetItemName());
     }
 
-    private void HandleLeftClick()
+    public void SetItem(Item item)
     {
-        if (player.currentPlayerState == PlayerState.armed )
-        {
-            player.Unequip();
-        }
-        ItemWorld invenotryItem = item.GetItemPrefab();
-        player.EquipItem(invenotryItem);
+        this.item = item;
     }
-
-    private void RemoveTheItemFromInventoryAndSpawnInfronOfPlayer()
-    {
-        if (player.currentPlayerState == PlayerState.armed &&  item.itemType == player.GetEquiipedItem().itemType )
-        {
-            player.Unequip();
-        }
-
-        Inventory inventory = player.GetInventory();
-        Vector3 spawnPos = (player.transform.position + player.transform.forward * 5);
-        spawnPos.y = 0.75f;
-
-        foreach (SO_Items i in ItemData.instance.items)
-        {
-            if(i.itemType == item.itemType)
-            {
-                int quantity = inventory.GetItemQuantity(item);
-                for(int j=0;j<quantity;j++)
-                {
-                    Instantiate(i.item,spawnPos,Quaternion.identity);
-                    spawnPos.x += 2.0f;
-                }
-                inventory.RemoveItemFromInventoryList(item);
-                return;
-            }
-        }
-    }
-
-
-
 }

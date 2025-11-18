@@ -9,10 +9,20 @@ public class InventoryUi : MonoBehaviour
     public Transform itemSlotContainer;
     public GameObject itemSlot;
 
+    [Header("Item Preview")]
+    [SerializeField] private Image img_item;
+    [SerializeField] private TextMeshProUGUI txt_ItemName;
+    public Button btn_equipItem;
+    public Button btn_RemoveFromInventory;
+
+    [SerializeField] private Sprite sprite_EmptyInventory;
+
     private void OnEnable()
     {
-        if(inventory != null)
-            inventory.ItemRemovedFromInventory += RefreshInventoryItems;    
+        if (inventory == null) return;
+
+        inventory.ItemRemovedFromInventory += RefreshInventoryItems;
+        DefaultPreview();
     }
 
     public void SetInventory(Inventory inventory)
@@ -20,6 +30,7 @@ public class InventoryUi : MonoBehaviour
         this.inventory = inventory;
         RefreshInventoryItems();
         inventory.ItemRemovedFromInventory += RefreshInventoryItems;
+        DefaultPreview();
     }
 
     public void RefreshInventoryItems() 
@@ -37,7 +48,7 @@ public class InventoryUi : MonoBehaviour
             image.sprite = item.GetSprite();
             TextMeshProUGUI quantityText = itemGameObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
             quantityText.text = item.quantity.ToString();
-            itemGameObject.GetComponent<ItemSlot>().item = item;
+            itemGameObject.GetComponent<ItemSlot>().SetItem(item);
         }
     }
 
@@ -60,9 +71,28 @@ public class InventoryUi : MonoBehaviour
 
     private void OnDisable()
     {
-            inventory.ItemRemovedFromInventory -= RefreshInventoryItems;    
+         inventory.ItemRemovedFromInventory -= RefreshInventoryItems;    
     }
 
+    public void SetPreview(Sprite itemImage , string itemName)
+    {
+        this.txt_ItemName.text = itemName;
+        this.img_item.sprite = itemImage;
+    }
+
+    public void DefaultPreview()
+    {
+        if(inventory.IsInventoryEmpty()) { SetPreview(sprite_EmptyInventory, "Inventory is Empty !"); ToogleInventoryButtons(false);  return; }
+        Item i = inventory.GetItemsList()[0];
+        SetPreview(i.GetSprite(), i.GetItemName());
+        ToogleInventoryButtons(true);
+    }
+
+    private void ToogleInventoryButtons(bool status)
+    {
+        btn_equipItem.gameObject.SetActive(status);
+        btn_RemoveFromInventory.gameObject.SetActive(status);
+    }
 
 
 }

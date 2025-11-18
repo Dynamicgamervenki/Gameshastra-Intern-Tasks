@@ -16,8 +16,8 @@ public class Item
     {
         foreach (SO_Items item in ItemData.instance.items)
         {
-            Debug.Log("item name : "  + item.name + "item type : " + item.itemType);
-            Debug.Log("itemType : " + itemType);
+            //Debug.Log("item name : "  + item.name + "item type : " + item.itemType);
+            //Debug.Log("itemType : " + itemType);
             if (item.itemType == itemType)
             {
                 return item.itemIcon;
@@ -26,7 +26,7 @@ public class Item
         return null;
     }
 
-    //is stackable
+
     public bool IsStackable()
     {
         foreach (SO_Items item in ItemData.instance.items)
@@ -62,6 +62,18 @@ public class Item
 
         }
         return false;
+    }
+
+    public string GetItemName()
+    {
+        foreach (SO_Items item in ItemData.instance.items)
+        {
+            if (item.itemType == itemType)
+            {
+                return item.itemName;
+            }
+        }
+        return default;
     }
 }
 

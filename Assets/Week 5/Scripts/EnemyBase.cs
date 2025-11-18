@@ -50,7 +50,7 @@ public abstract class EnemyBase : MonoBehaviour
 
     public void Idle()
     {
-        UnityEngine.Debug.Log("Enemy is Idle");
+       // UnityEngine.Debug.Log("Enemy is Idle");
     }
 }
 
