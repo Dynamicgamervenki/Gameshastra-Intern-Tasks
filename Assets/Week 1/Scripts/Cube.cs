@@ -29,7 +29,6 @@ public class Cube : MonoBehaviour
 
     private Inventory inventory;
     public InventoryUi inventoryUi;
-    private Item lastHoveredItem;
 
     public PlayerState currentPlayerState;
 
@@ -50,21 +49,10 @@ public class Cube : MonoBehaviour
         rb = GetComponent<Rigidbody>();
 
         inventory = new Inventory();
-        lastHoveredItem = inventory.GetItemsList()[0];
 
         inventoryUi.SetInventory(inventory);
         inventoryUi.btn_equipItem.onClick.AddListener(EquipItem);
         inventoryUi.btn_RemoveFromInventory.onClick.AddListener(RemoveTheItemFromInventoryAndSpawnInfronOfPlayer);
-    }
-
-    public Inventory GetInventory()
-    {
-        return inventory;
-    }
-
-    public InventoryUi GetInventoryUi()
-    {
-        return inventoryUi;
     }
 
     private void GameInput_OnInventoryAction(object sender, EventArgs e)
@@ -78,7 +66,7 @@ public class Cube : MonoBehaviour
         inventory.AddToList(item);
         inventoryUi.RefreshInventoryItems();
         inventoryUi.DefaultPreview();
-        lastHoveredItem = inventory.GetItemsList()[0];
+        
     }
 
     private void GameInput_OnJumpAction(object sender, EventArgs e)
@@ -185,13 +173,6 @@ public class Cube : MonoBehaviour
         }
     }
 
-    private void RotateWhileMoving(Vector3 RotateIn)
-    {
-        GameObject child = gameObject.transform.GetChild(0).gameObject;
-        child.transform.Rotate(Vector3.right * RotateIn.z * spinningSpeed * Time.deltaTime);
-
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.TryGetComponent<ItemWorld>(out ItemWorld itemWorld))
@@ -217,21 +198,23 @@ public class Cube : MonoBehaviour
 
     public void EquipItem()
     {
-        if (!lastHoveredItem.canAttachToSocket() /*&& !EquippedItem */) return;
+        Item i = inventoryUi.GetLastHoveredItem();
+        if (!i.canAttachToSocket() /*&& !EquippedItem */) return;
 
         if (currentPlayerState == PlayerState.armed)
         {
             Unequip();
         }
-
-        EquippedItem =  Instantiate(lastHoveredItem.GetItemPrefab(), weaponSocket.position,weaponSocket.rotation,weaponSocket);
+       
+        EquippedItem =  Instantiate(i.GetItemPrefab(), weaponSocket.position,weaponSocket.rotation,weaponSocket);
         currentPlayerState = PlayerState.armed;
         //return EquippedItem.gameObject;
     }
 
     private void RemoveTheItemFromInventoryAndSpawnInfronOfPlayer()
     {
-        if (currentPlayerState == PlayerState.armed && lastHoveredItem.itemType == GetEquiipedItem().itemType)
+        Item it = inventoryUi.GetLastHoveredItem();
+        if (currentPlayerState == PlayerState.armed && it.itemType == GetEquiipedItem().itemType)
         {
             Unequip();
         }
@@ -241,18 +224,18 @@ public class Cube : MonoBehaviour
 
         foreach (SO_Items i in ItemData.instance.items)
         {
-            if (i.itemType == lastHoveredItem.itemType)
+            if (i.itemType == it.itemType)
             {
-                int quantity = inventory.GetItemQuantity(lastHoveredItem);
+                int quantity = inventory.GetItemQuantity(it);
                 for (int j = 0; j < quantity; j++)
                 {
                     Instantiate(i.item, spawnPos, Quaternion.identity);
                     spawnPos.x += 2.0f;
                 }
-                inventory.RemoveItemFromInventoryList(lastHoveredItem);
+                inventory.RemoveItemFromInventoryList(it);
                 inventoryUi.DefaultPreview();
-                if (inventory.IsInventoryEmpty()) { lastHoveredItem = null; return; }
-                lastHoveredItem = inventory.GetItemsList()[0];
+                if (inventory.IsInventoryEmpty()) { it = null; return; }
+                it = inventory.GetItemsList()[0];
                 return;
             }
         }
@@ -267,11 +250,6 @@ public class Cube : MonoBehaviour
     public ItemWorld GetEquiipedItem()
     {
         return EquippedItem;
-    }
-
-    public void SetLastHoveredItem(Item lastHoveredItem)
-    {
-        this.lastHoveredItem = lastHoveredItem;
     }
 
 }

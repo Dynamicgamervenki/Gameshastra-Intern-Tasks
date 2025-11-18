@@ -6,26 +6,16 @@ using UnityEngine.EventSystems;
 public class ItemSlot : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
 {
     private Item item;
-    private Cube player;
-    private InventoryUi inventoryUi;
-
-    private void Start()
-    {
-        player = GameObject.Find("Player").GetComponent<Cube>();
-        inventoryUi = player.GetInventoryUi();
-    }
-
-    private Item lastHoveredItem;
+    public event Action<Item> OnHoverItem;
+    public event Action<Item> OnHoverExitItem;
     public void OnPointerEnter(PointerEventData eventData)
     {
-        inventoryUi.SetPreview(item.GetSprite(),item.GetItemName());
+        OnHoverItem.Invoke(this.item);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        lastHoveredItem = this.item;
-        player.SetLastHoveredItem(lastHoveredItem);
-      //  Debug.LogWarning("lastHoveredItem : " + lastHoveredItem.GetItemName());
+         OnHoverExitItem?.Invoke(this.item);    
     }
 
     public void SetItem(Item item)

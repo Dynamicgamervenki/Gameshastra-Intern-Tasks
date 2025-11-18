@@ -73,11 +73,6 @@ public class Inventory
         return items;
     }
 
-    public bool isInventoryFull()
-    {
-        return items.Count >= maxSlots;
-    }
-    
     public int GetItemQuantity(Item item)
     {
         foreach(Item i in items)
@@ -94,20 +89,19 @@ public class Inventory
         {
             if (i.itemType == item.itemType)
             {
-                items.Remove(item);
+                items.Remove(i);
                 ItemRemovedFromInventory?.Invoke();
                 return;
             }
         }
     }
 
-    public bool IsInventoryEmpty()
-    {
-        return items.Count == 0;
-    }
+    public bool isInventoryFull() { return items.Count >= maxSlots;}
 
-    public Item GetLastItemFromList()
-    {
-        return items[items.Count - 1];
-    }
+    public bool IsInventoryEmpty() { return items.Count == 0; }
+
+    public Item GetLastItemFromList() { return items[items.Count - 1]; }
+
+    public Item GetFirstItemFromList() { return items[0]; }
+
 }
