@@ -6,8 +6,11 @@ using UnityEngine.EventSystems;
 public class ItemSlot : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
 {
     private Item item;
+
+    #region events
     public event Action<Item> OnHoverItem;
     public event Action<Item> OnHoverExitItem;
+    #endregion
     public void OnPointerEnter(PointerEventData eventData)
     {
         OnHoverItem.Invoke(this.item);

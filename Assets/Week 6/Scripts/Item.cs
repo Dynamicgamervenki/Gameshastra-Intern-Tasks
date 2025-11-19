@@ -16,8 +16,6 @@ public class Item
     {
         foreach (SO_Items item in ItemData.instance.items)
         {
-            //Debug.Log("item name : "  + item.name + "item type : " + item.itemType);
-            //Debug.Log("itemType : " + itemType);
             if (item.itemType == itemType)
             {
                 return item.itemIcon;

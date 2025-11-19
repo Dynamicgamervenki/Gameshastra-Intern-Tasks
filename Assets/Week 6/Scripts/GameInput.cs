@@ -4,9 +4,12 @@ using System;
 public class GameInput : MonoBehaviour
 {
     InputSystem_Actions inputActions;
+
+    #region Inputevents
     public event EventHandler OnJumpAction;
     public event EventHandler OnInventoryAction;
     public event EventHandler OnEquipAction;
+    #endregion 
 
     private void Start()
     {

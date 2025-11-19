@@ -16,7 +16,6 @@ public class Inventory
          items = new List<Item>();
         AddToList(new Item { itemType = ItemType.HeaalthPotion,quantity = 1});
         AddToList(new Item { itemType = ItemType.Weapon,quantity = 1});
-       // Debug.LogWarning("Inventory");
        // Testing();
     }
 

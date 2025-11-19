@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -7,34 +8,31 @@ using UnityEngine.SceneManagement;
 
 public class Cube : MonoBehaviour 
 {
-    [SerializeField]
-    private float moveSpeed = 5.0f;
-    [SerializeField]
-    private float jumpForce = 10.0f;
-    [SerializeField]
-    private float rotationSpeed = 10.0f;
-    [SerializeField]
-    private float SpeedIncrement = 0.1f;
-    [SerializeField]
-    bool Ovverride = false;
-    [SerializeField]
-    float spinningSpeed = 30.0f;
-    [SerializeField]
-    private GameInput gameInput;
 
-    Rigidbody rb;
-    private bool isGrounded = true;
+    [Header("Player Data")]
+    [SerializeField] private float moveSpeed = 5.0f;
+    [SerializeField] private float jumpForce = 10.0f;
+    [SerializeField] private float rotationSpeed = 10.0f;
+    [SerializeField] private float SpeedIncrement = 0.1f;
+    [SerializeField] float spinningSpeed = 30.0f;
+    public PlayerState currentPlayerState;
+    [SerializeField] private Transform weaponSocket;
 
-    private bool isMoving = false;
-
-    private Inventory inventory;
+    [Header("Script References")]
+    [SerializeField] private GameInput gameInput;
     public InventoryUi inventoryUi;
 
-    public PlayerState currentPlayerState;
+    [Header("Level Data")]
+    [SerializeField] private int leveltoLoad = 0;
 
-    public int leveltoLoad = 0;
-
+    #region privateVariables
+    private Inventory inventory;
+    private Rigidbody rb;
+    private bool isGrounded = true;
+    private bool isMoving = false;
     private ItemWorld EquippedItem;
+    private List<ItemWorld> SpawnedWeapons = new List<ItemWorld>();
+    #endregion
 
     public bool IsMoving()
     {
@@ -86,7 +84,7 @@ public class Cube : MonoBehaviour
     private void FixedUpdate()
     {
 
-        if(newMove != Vector3.zero && Ovverride)
+        if(newMove != Vector3.zero)
         {
             Quaternion targetRotation = Quaternion.LookRotation(newMove);
             rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime));
@@ -96,26 +94,10 @@ public class Cube : MonoBehaviour
     Vector3 newMove = Vector3.zero;
 
     private void MovementUsingNewInputSystem()
-    {
-       // newMove = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")).normalized;  
-       newMove = gameInput.GetMovementVectorNormalized();
-       // Debug.Log("newMove" + newMove);
-
-        if (UiManager.Instance && UiManager.Instance.CountdownOver || Ovverride)
-        {
-           // transform.Translate(newMove * moveSpeed * Time.deltaTime);
-           rb.MovePosition(transform.position + newMove * moveSpeed * Time.deltaTime);
-           isMoving = newMove != Vector3.zero;
-
-            if (!Ovverride)
-            {
-                if(newMove.z != 0 || newMove.x != 0)
-                {
-                  //  RotateWhileMoving(newMove);
-                    moveSpeed += SpeedIncrement * Time.deltaTime;
-                }
-            }
-        }
+    { 
+        newMove = gameInput.GetMovementVectorNormalized();
+        rb.MovePosition(transform.position + newMove * moveSpeed * Time.deltaTime);
+        isMoving = newMove != Vector3.zero;
 
     }
 
@@ -124,7 +106,6 @@ public class Cube : MonoBehaviour
     {
         if(rb)
             rb.AddForce(new Vector3(0, jumpForce * Time.deltaTime, 0));
-      // rb.AddForce(Vector3.up * jumpForce * Time.deltaTime);
     }
 
     public void TestingDead()
@@ -194,21 +175,39 @@ public class Cube : MonoBehaviour
     }
 
 
-    public Transform weaponSocket;
 
     public void EquipItem()
     {
         Item i = inventoryUi.GetLastHoveredItem();
-        if (!i.canAttachToSocket() /*&& !EquippedItem */) return;
+        if (!i.canAttachToSocket()) return;
 
         if (currentPlayerState == PlayerState.armed)
         {
             Unequip();
         }
-       
-        EquippedItem =  Instantiate(i.GetItemPrefab(), weaponSocket.position,weaponSocket.rotation,weaponSocket);
+        CheckIfWeaponIsAlreadySpawned(i);
+        EquippedItem.gameObject.SetActive(true);
         currentPlayerState = PlayerState.armed;
-        //return EquippedItem.gameObject;
+    }
+
+    private void CheckIfWeaponIsAlreadySpawned(Item item)
+    {
+
+        if(SpawnedWeapons.Count != 0)
+        {
+
+            foreach (ItemWorld ii in SpawnedWeapons)
+            {
+                if (ii.itemType == item.itemType)
+                {
+                    EquippedItem = ii;
+                    return;
+                }
+            }
+        }
+
+        EquippedItem = Instantiate(item.GetItemPrefab(), weaponSocket.position, weaponSocket.rotation, weaponSocket);
+        SpawnedWeapons.Add(EquippedItem);
     }
 
     private void RemoveTheItemFromInventoryAndSpawnInfronOfPlayer()
@@ -243,7 +242,7 @@ public class Cube : MonoBehaviour
 
     public void Unequip()
     {
-        Destroy(EquippedItem.gameObject);
+        EquippedItem.gameObject.SetActive(false);   
         currentPlayerState = PlayerState.Unarmed;
     }
 
