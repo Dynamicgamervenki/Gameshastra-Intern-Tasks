@@ -24,6 +24,8 @@ public class Cube : MonoBehaviour
     [Header("Level Data")]
     [SerializeField] private int leveltoLoad = 0;
 
+
+
     #region privateVariables
     private Inventory inventory;
     private Rigidbody rb;
@@ -31,6 +33,7 @@ public class Cube : MonoBehaviour
     private bool isMoving = false;
     private ItemWorld EquippedItem;
     private List<ItemWorld> SpawnedWeapons = new List<ItemWorld>();
+    private Resource health;
     #endregion
 
     public bool IsMoving()
@@ -38,18 +41,25 @@ public class Cube : MonoBehaviour
        return isMoving;
     }
 
+    private void Awake()
+    {
+        health = new Resource(100);
+        inventory = new Inventory();
+    }
+
     private void Start()
     {
+        health.Dead += RestartLevel;
         currentPlayerState = PlayerState.Unarmed;
         gameInput.OnJumpAction += GameInput_OnJumpAction;
         gameInput.OnInventoryAction += GameInput_OnInventoryAction;
         rb = GetComponent<Rigidbody>();
 
-        inventory = new Inventory();
 
         inventoryUi.SetInventory(inventory);
         inventoryUi.btn_equipItem.onClick.AddListener(EquipItem);
         inventoryUi.btn_RemoveFromInventory.onClick.AddListener(RemoveTheItemFromInventoryAndSpawnInfronOfPlayer);
+
     }
 
     private void GameInput_OnInventoryAction(object sender, EventArgs e)
@@ -125,8 +135,8 @@ public class Cube : MonoBehaviour
         if (Camera.main.TryGetComponent<CameraMovementt>(out var camera))
             camera.ShakeCamera();
 
+        TakeDamage();
         yield return new WaitForSeconds(1.2f);
-        SceneManager.LoadScene(leveltoLoad);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -244,10 +254,14 @@ public class Cube : MonoBehaviour
         currentPlayerState = PlayerState.Unarmed;
     }
 
-    public ItemWorld GetEquiipedItem()
+    public void TakeDamage()
     {
-        return EquippedItem;
+        health.Remove(30);
     }
+    public void RestartLevel() => Invoke(nameof(RestartScene), 2f);
+    private void RestartScene() => SceneManager.LoadScene(leveltoLoad);
+    public ItemWorld GetEquiipedItem() => EquippedItem;
+    public Resource GetHealth() => health;
 
 }
 

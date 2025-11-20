@@ -23,10 +23,10 @@ public class EnemyController : MonoBehaviour
             {
                 Patrol(patrolEnemy);
             }
-            else
-            {
-                Debug.Log(patrolEnemy.name + " %: " + enemyData[patrolEnemy].GetCurrentDistancePercentage());
-            }
+            //else
+            //{
+            //    Debug.Log(patrolEnemy.name + " %: " + enemyData[patrolEnemy].GetCurrentDistancePercentage());
+            //}
         }
     }
 
