@@ -14,7 +14,7 @@ public class Item
 
     public Sprite GetSprite()
     {
-        foreach (SO_Items item in ItemData.instance.items)
+        foreach (SO_Items item in ItemData.Instance.items)
         {
             if (item.itemType == itemType)
             {
@@ -27,7 +27,7 @@ public class Item
 
     public bool IsStackable()
     {
-        foreach (SO_Items item in ItemData.instance.items)
+        foreach (SO_Items item in ItemData.Instance.items)
         {
             if (item.itemType == itemType)
             {
@@ -39,7 +39,7 @@ public class Item
 
     public ItemWorld GetItemPrefab()
     {
-        foreach (SO_Items item in ItemData.instance.items)
+        foreach (SO_Items item in ItemData.Instance.items)
         {
             if (item.itemType == itemType)
             {
@@ -49,9 +49,9 @@ public class Item
         return null;
     }
 
-    public bool canAttachToSocket()
+    public bool CanAttachToSocket()
     {
-        foreach (SO_Items item in ItemData.instance.items)
+        foreach (SO_Items item in ItemData.Instance.items)
         {
             if (item.itemType == itemType)
             {
@@ -64,7 +64,7 @@ public class Item
 
     public string GetItemName()
     {
-        foreach (SO_Items item in ItemData.instance.items)
+        foreach (SO_Items item in ItemData.Instance.items)
         {
             if (item.itemType == itemType)
             {
@@ -77,7 +77,7 @@ public class Item
 
 public enum ItemType
 {
-    Weapon,
+    Weapon,                 //this is sword acutally , didnt want to change here and again fix references in inspector
     HeaalthPotion,
     food,
     Shield,

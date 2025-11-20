@@ -17,8 +17,6 @@ public class SycoEnemy : EnemyBase,IAttackable,IEnemy
     public float projectileSpeed = 5.0f;
 
     private bool attackDone = false;
-
-    public GameObject SycoEnemyPrefab;
     protected override void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
@@ -63,7 +61,7 @@ public class SycoEnemy : EnemyBase,IAttackable,IEnemy
     GameObject fire;
     public void Attack()                    //Interface Method
     {
-        currentState = EnemyState.Attack;
+ 
         Debug.Log("Syco Enemy Attacking!");
         if(!attackDone && target && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
         {
@@ -76,7 +74,6 @@ public class SycoEnemy : EnemyBase,IAttackable,IEnemy
 
     private void Chase()
     {
-        currentState = EnemyState.Chase;
         Debug.Log("Syco Enemy Chasing!");
         if(navMeshAgent && target)
         {

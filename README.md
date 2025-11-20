@@ -14,7 +14,7 @@ Design a simple level with a collection of moving platforms (some rotating, some
 Week 3 :
  Platformer character controller with jumping, collision, and environmental interaction (such as platforms moving).
 
- Week 4 : 
+Week 4 : 
   Title screen with a button to start the game, UI elements to show the player’s score, and basic scene management
 
 Week 5 :
@@ -23,3 +23,5 @@ Create an enemy class with inheritance and different enemy types (e.g., a base e
 Week 6 : 
 Refactor a previously created game system (e.g., inventory or weapon system) using SOLID principles to improve extensibility.
 
+Week 7 :
+Create an enemy system with state transitions using coroutines (e.g., patrolling, chasing, attacking).

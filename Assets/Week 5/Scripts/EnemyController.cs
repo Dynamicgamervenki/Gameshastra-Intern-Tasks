@@ -6,12 +6,8 @@ using UnityEngine.Rendering;
 public class EnemyController : MonoBehaviour
 {
     public List<EnemyBase> Enemies;
-    //public List<EnemyBase> PatrolEnemies;
-
-   //[SerializedDictionary("Enemy","Spline")]
     public SerializedDictionary<EnemyBase, SplinePatrol> enemyData = new SerializedDictionary<EnemyBase, SplinePatrol>();
-
-    bool isPatroling = false;
+ //   bool isPatroling = false;
 
     private void Start()
     {
@@ -27,6 +23,10 @@ public class EnemyController : MonoBehaviour
             {
                 Patrol(patrolEnemy);
             }
+            else
+            {
+                Debug.Log(patrolEnemy.name + " %: " + enemyData[patrolEnemy].GetCurrentDistancePercentage());
+            }
         }
     }
 
@@ -35,20 +35,27 @@ public class EnemyController : MonoBehaviour
         Enemies.Add(enemy);
         if (enemy is IPatrol p)
         {
-            //PatrolEnemies.Add(enemy);
-            //SplinePatrol splinePatrol = enemy.GetComponent<SplinePatrol>();
-            //splinePatrol.Init(p.GetSplineContainer(),p.GetPatrolSpeed());
             enemyData.Add(enemy, enemy.GetComponent<SplinePatrol>());
-            enemy.GetComponent<SplinePatrol>().Init(p.GetSplineContainer(),p.GetPatrolSpeed());
+            if(enemy.TryGetComponent<SplinePatrol>(out SplinePatrol splinePatrol))
+            {
+                splinePatrol.Init(p.GetSplineContainer(),p.GetPatrolSpeed());
+            }
+            else
+            {
+                Debug.LogError("Attach SplinePatrol Script For Enemy If You Want The Enemy To Be Able To Patrol !");
+            }
         }
     }
 
     public void Patrol(EnemyBase enemy)
     {
-        isPatroling = true;
-     //   SplinePatrol splinePatrol = enemy.GetComponent<SplinePatrol>();
-      //  splinePatrol.MoveAlongSpline(enemy.transform);
+     //   isPatroling = true;
         enemyData[enemy].MoveAlongSpline(enemy.transform);
+        if (enemyData[enemy] is IPatrol p)
+        {
+            p.IsPatroling = true;
+          
+        }
     }
     
 }

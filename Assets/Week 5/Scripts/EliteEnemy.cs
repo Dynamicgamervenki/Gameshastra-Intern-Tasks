@@ -12,22 +12,28 @@ public class EliteEnemy : EnemyBase,IPatrol,IAttackable,IEnemy
     [SerializeField] private SplineContainer spline;
     [SerializeField] private float patrolSpeed = 2f;
 
-    bool isPatroling = false;
+    public bool IsPatroling { get; set; }
 
     protected override void Start()
     {
         base.Start();
         currentState = EnemyState.Patrol;
-        //splinePatrol.Init(spline, patrolSpeed);
     }
 
     protected override void Update()
     {
         base.Update();
+
+        IsPatroling = !canAttack;
         canAttack = Physics.CheckSphere(transform.position, attackRange, playerMask);
+
         if(canAttack && currentState != EnemyState.Attack)
         {
             currentState = EnemyState.Attack;
+        }
+        if(IsPatroling && !canAttack)
+        {
+            currentState = EnemyState.Patrol;
         }
     }
 
@@ -36,20 +42,11 @@ public class EliteEnemy : EnemyBase,IPatrol,IAttackable,IEnemy
         base.HandleEnemyStates();
         switch (currentState)
         {
-            //case EnemyState.Patrol:
-            //    Patrol();
-            //    break;
             case EnemyState.Attack:
                 Attack();
                 break;
         }
     }
-
-    //public void Patrol()            //Interface Method
-    //{
-    //    isPatroling = true;
-    //    //splinePatrol.MoveAlongSpline();
-    //}
 
     public void Attack()            //Interface Method
     {

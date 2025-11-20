@@ -1,5 +1,4 @@
-using DG.Tweening;
-using System.Collections;
+using DG.Tweening;  
 using UnityEngine;
 
 public class CameraMovementt : MonoBehaviour
@@ -24,6 +23,7 @@ public class CameraMovementt : MonoBehaviour
 
     public void ShakeCamera()
     {
-        transform.DOShakeRotation(0.2f, new Vector3(0, 0, 5.0f), 10, 40.0f);
+
+        transform.DOShakeRotation(0.2f, new Vector3(0f, 0, 5.0f), 10, 40.0f);
     }
 }

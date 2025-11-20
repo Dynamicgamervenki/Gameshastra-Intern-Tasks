@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
 
 public class Inventory
 {
     private List<Item> items; 
-    private int maxSlots = 24;
+    private readonly int maxSlots = 24;
 
     public event Action ItemRemovedFromInventory;
 
@@ -63,7 +61,7 @@ public class Inventory
 
     private void Add(Item item)
     {
-        if (isInventoryFull()) return;
+        if (IsInventoryFull) return;
 
         items.Add(item);
     }
@@ -95,12 +93,10 @@ public class Inventory
         }
     }
 
-    public bool isInventoryFull() { return items.Count >= maxSlots;}
-
-    public bool IsInventoryEmpty() { return items.Count == 0; }
-
-    public Item GetLastItemFromList() { return items[items.Count - 1]; }
-
-    public Item GetFirstItemFromList() { return items[0]; }
-
+    #region PropertyMethods
+    public bool IsInventoryFull => items.Count >= maxSlots;
+    public bool IsInventoryEmpty => items.Count == 0;
+    public Item GetLastItemFromList() => items[items.Count - 1];
+    public Item FirstItemFromList => items[0];
+    #endregion
 }

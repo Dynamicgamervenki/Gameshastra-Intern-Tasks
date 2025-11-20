@@ -13,8 +13,7 @@ public class Cube : MonoBehaviour
     [SerializeField] private float moveSpeed = 5.0f;
     [SerializeField] private float jumpForce = 10.0f;
     [SerializeField] private float rotationSpeed = 10.0f;
-    [SerializeField] private float SpeedIncrement = 0.1f;
-    [SerializeField] float spinningSpeed = 30.0f;
+
     public PlayerState currentPlayerState;
     [SerializeField] private Transform weaponSocket;
 
@@ -123,8 +122,7 @@ public class Cube : MonoBehaviour
         if(UiManager.Instance)
             UiManager.Instance.GameOver();
 
-        CameraMovementt camera= Camera.main.GetComponent<CameraMovementt>();
-        if (camera != null)
+        if (Camera.main.TryGetComponent<CameraMovementt>(out var camera))
             camera.ShakeCamera();
 
         yield return new WaitForSeconds(1.2f);
@@ -133,11 +131,11 @@ public class Cube : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag == "Obstacle" || collision.gameObject.tag == "Trap")
+        if(collision.gameObject.CompareTag("Obstacle") || collision.gameObject.CompareTag("Trap"))
         {
             StartCoroutine(Dead());
         }
-        if(collision.gameObject.tag == "Ground")
+        if(collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
             Quaternion reset = Quaternion.Euler(0, 0, 0);
@@ -148,7 +146,7 @@ public class Cube : MonoBehaviour
 
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.tag == "Ground")
+        if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = false;
         }
@@ -160,7 +158,7 @@ public class Cube : MonoBehaviour
         {
               AddItemToInventory(itemWorld.GetItem());
 
-            if(inventory.isInventoryFull() && !itemWorld.GetItem().IsStackable())
+            if(inventory.IsInventoryFull && !itemWorld.GetItem().IsStackable())
             {
                 return;
             }
@@ -179,7 +177,7 @@ public class Cube : MonoBehaviour
     public void EquipItem()
     {
         Item i = inventoryUi.GetLastHoveredItem();
-        if (!i.canAttachToSocket()) return;
+        if (!i.CanAttachToSocket()) return;
 
         if (currentPlayerState == PlayerState.armed)
         {
@@ -221,7 +219,7 @@ public class Cube : MonoBehaviour
         Vector3 spawnPos = (transform.position + transform.forward * 5);
         spawnPos.y = 0.75f;
 
-        foreach (SO_Items i in ItemData.instance.items)
+        foreach (SO_Items i in ItemData.Instance.items)
         {
             if (i.itemType == it.itemType)
             {
@@ -233,7 +231,7 @@ public class Cube : MonoBehaviour
                 }
                 inventory.RemoveItemFromInventoryList(it);
                 inventoryUi.DefaultPreview();
-                if (inventory.IsInventoryEmpty()) { it = null; return; }
+                if (inventory.IsInventoryEmpty) { it = null; return; }
                 it = inventory.GetItemsList()[0];
                 return;
             }

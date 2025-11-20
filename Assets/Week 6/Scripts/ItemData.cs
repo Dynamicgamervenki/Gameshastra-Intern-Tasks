@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class ItemData : MonoBehaviour
 {
-    public static ItemData instance { get; private set; }
+    public static ItemData Instance { get; private set; }
     public List<SO_Items> items;
 
     private void Awake()
     {
-        instance = this;
+        Instance = this;
     }
 
     private void Start()

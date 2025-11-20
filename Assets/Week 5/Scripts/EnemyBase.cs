@@ -11,18 +11,10 @@ public abstract class EnemyBase : MonoBehaviour
     [HideInInspector]
     public GameObject target;
 
-    public LayerMask playerMask;
+    public LayerMask playerMask = 6;
 
     private EnemyController enemyManager;
 
-    //public abstract IEnemy CreateEnemy();
-
-    //public void SpawnEnemy(Vector3 position)
-    //{
-    //    IEnemy enemy = CreateEnemy();
-    //    enemy.Spawn(position);
-    //    UnityEngine.Debug.LogWarning("Enemy has been spawned !:)");
-    //}
 
     protected virtual void Start()
     {
@@ -50,7 +42,7 @@ public abstract class EnemyBase : MonoBehaviour
 
     public void Idle()
     {
-       // UnityEngine.Debug.Log("Enemy is Idle");
+        UnityEngine.Debug.Log("Enemy is Idle");
     }
 }
 
@@ -60,5 +52,6 @@ public enum EnemyState
     Patrol,
     Chase,
     Attack,
-    Flee
+    Flee,
+    Relax
 }

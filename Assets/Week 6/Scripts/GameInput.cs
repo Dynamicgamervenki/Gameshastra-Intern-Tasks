@@ -40,7 +40,7 @@ public class GameInput : MonoBehaviour
         Vector2 inputVector = inputActions.Player.Move.ReadValue<Vector2>();
         Vector3 inputVector_ = new Vector3(inputVector.x, 0f, inputVector.y);
 
-        inputVector = inputVector.normalized;
+        //inputVector = inputVector.normalized;
         inputVector_ = inputVector_.normalized;
 
         //return inputVector;

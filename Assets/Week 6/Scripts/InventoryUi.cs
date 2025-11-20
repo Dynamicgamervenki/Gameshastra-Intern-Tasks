@@ -105,9 +105,9 @@ public class InventoryUi : MonoBehaviour
 
     public void DefaultPreview()
     {
-        if(inventory.IsInventoryEmpty()) { SetPreview(sprite_EmptyInventory, "Inventory is Empty !"); ToogleInventoryButtons(false);  return; }
+        if(inventory.IsInventoryEmpty) { SetPreview(sprite_EmptyInventory, "Inventory is Empty !"); ToogleInventoryButtons(false);  return; }
 
-        Item i = inventory.GetFirstItemFromList();
+        Item i = inventory.FirstItemFromList;
         SetPreview(i.GetSprite(), i.GetItemName());
         ToogleInventoryButtons(true);
         lastHoveredItem = i;
