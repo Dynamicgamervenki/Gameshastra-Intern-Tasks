@@ -75,7 +75,6 @@ public class BossEnemy : EnemyBase, IAttackable, IPatrol
         }
     }
 
-    float splinetravel;
     private void Chase()
     {
         Debug.Log("Boss Enemy Chase's");

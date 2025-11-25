@@ -24,6 +24,8 @@ public class Cube : MonoBehaviour
     [Header("Level Data")]
     [SerializeField] private int leveltoLoad = 0;
 
+    public event Action PlayerDead;
+
 
 
     #region privateVariables
@@ -45,6 +47,9 @@ public class Cube : MonoBehaviour
     {
         health = new Resource(100);
         inventory = new Inventory();
+
+        if(!AdsManager.Instace.isAdShowing)
+            StartCoroutine(ShowBannerAdAfterDelay(2f));
     }
 
     private void Start()
@@ -60,6 +65,13 @@ public class Cube : MonoBehaviour
         inventoryUi.btn_equipItem.onClick.AddListener(EquipItem);
         inventoryUi.btn_RemoveFromInventory.onClick.AddListener(RemoveTheItemFromInventoryAndSpawnInfronOfPlayer);
 
+
+    }
+
+    IEnumerator ShowBannerAdAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        AdsManager.Instace.bannerAds.ShowBannerAds();
     }
 
     private void GameInput_OnInventoryAction(object sender, EventArgs e)
@@ -117,10 +129,7 @@ public class Cube : MonoBehaviour
             rb.AddForce(new Vector3(0, jumpForce * Time.deltaTime, 0));
     }
 
-    public void TestingDead()
-    {
-        StartCoroutine(Dead());
-    }
+    public void TestingDead() => StartCoroutine(Dead());
 
     IEnumerator Dead()
     {
@@ -259,7 +268,12 @@ public class Cube : MonoBehaviour
         health.Remove(30);
     }
     public void RestartLevel() => Invoke(nameof(RestartScene), 2f);
-    private void RestartScene() => SceneManager.LoadScene(leveltoLoad);
+    private void RestartScene()
+    {
+        PlayerDead?.Invoke();
+        SceneManager.LoadScene(leveltoLoad);
+    }
+
     public ItemWorld GetEquiipedItem() => EquippedItem;
     public Resource GetHealth() => health;
 
