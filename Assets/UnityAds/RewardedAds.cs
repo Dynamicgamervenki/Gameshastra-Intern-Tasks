@@ -1,3 +1,4 @@
+using GoogleMobileAds.Api;
 using UnityEngine;
 using UnityEngine.Advertisements;
 
@@ -5,8 +6,11 @@ public class RewardedAds : MonoBehaviour , IUnityAdsShowListener , IUnityAdsLoad
 {
     [SerializeField] private string _androidAdUnitId = "Rewarded_Android";
     [SerializeField] private string _iOSAdUnitId = "Rewarded_iOS";
-
     private string _adUnitId = null;
+
+    //Google
+    private const string AD_UNIT_ID = "ca-app-pub-3940256099942544/5224354917";
+    RewardedAd rewardedAd;
 
     void Awake()
     {
@@ -30,6 +34,57 @@ public class RewardedAds : MonoBehaviour , IUnityAdsShowListener , IUnityAdsLoad
         LoadRewardedAds();
     }
 
+    public void ShowGoogleRewardedAds()
+    {
+        if (rewardedAd != null && rewardedAd.CanShowAd())
+        {
+            rewardedAd.Show((Reward reward) =>
+            {
+                Debug.Log($"User earned reward: {reward.Amount} {reward.Type}");
+
+            });
+        }
+        else
+        {
+            Debug.Log("Rewarded ad not ready");
+        }
+    }
+
+    public void LoadGoogleRewardedAd()
+    {
+        if (rewardedAd != null)
+        {
+            rewardedAd.Destroy();
+            rewardedAd = null;
+
+        }
+
+        RewardedAd.Load(AD_UNIT_ID, new AdRequest(), (RewardedAd ad, LoadAdError error) =>
+        {
+            if (error != null || ad == null)
+            {
+                Debug.LogError("Rewarded ad failed to load:" + error?.GetMessage());
+                return;
+            }
+
+            rewardedAd = ad;
+            Debug.Log("Rewarded ad loaded.");
+
+            rewardedAd.OnAdFullScreenContentClosed += () =>
+            {
+                Debug.LogError("Rewarded ad closed.");
+                AdsManager.Instace.InvokeAdClosed();
+                LoadGoogleRewardedAd();
+            };
+            rewardedAd.OnAdFullScreenContentFailed += (error) =>
+            {
+                Debug.LogError("Rewarded ad failed to show:" + error.GetMessage());
+            };
+        });
+    }
+
+
+    #region interfaceMethods
     public void OnUnityAdsAdLoaded(string placementId)
     {
        Debug.Log("Rewarded ad loaded: " + placementId);
@@ -58,7 +113,9 @@ public class RewardedAds : MonoBehaviour , IUnityAdsShowListener , IUnityAdsLoad
 
     public void OnUnityAdsShowComplete(string placementId, UnityAdsShowCompletionState showCompletionState)
     {
+        AdsManager.Instace.InvokeAdClosed();
         AdsManager.Instace.isAdShowing = false;
         Debug.Log("Rewarded ad completed: " + placementId + " - " + showCompletionState.ToString());
     }
+    #endregion
 }

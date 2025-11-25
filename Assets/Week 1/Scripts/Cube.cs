@@ -65,7 +65,7 @@ public class Cube : MonoBehaviour
         inventoryUi.btn_equipItem.onClick.AddListener(EquipItem);
         inventoryUi.btn_RemoveFromInventory.onClick.AddListener(RemoveTheItemFromInventoryAndSpawnInfronOfPlayer);
 
-
+        AdsManager.Instace.AdClosed += LoadLevel;
     }
 
     IEnumerator ShowBannerAdAfterDelay(float delay)
@@ -271,8 +271,14 @@ public class Cube : MonoBehaviour
     private void RestartScene()
     {
         PlayerDead?.Invoke();
-        SceneManager.LoadScene(leveltoLoad);
+      //  SceneManager.LoadScene(leveltoLoad);
     }
+
+    private void LoadLevel()
+    {
+       SceneManager.LoadScene(leveltoLoad);
+    }
+
 
     public ItemWorld GetEquiipedItem() => EquippedItem;
     public Resource GetHealth() => health;

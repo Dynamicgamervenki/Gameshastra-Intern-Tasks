@@ -1,3 +1,4 @@
+using GoogleMobileAds.Api;
 using System;
 using UnityEngine;
 using UnityEngine.Advertisements;
@@ -7,7 +8,12 @@ public class BannerAds : MonoBehaviour , IUnityAdsLoadListener , IUnityAdsShowLi
     [SerializeField] private string _androidAdUnitId = "Banner_Android";
     [SerializeField] private string _iOSAdUnitId = "Banner_iOS";
 
+
+    string AD_UNIT_ID = "ca-app-pub-3940256099942544/6300978111";
+
     private string _adUnitId = null;
+
+    BannerView bannerView;
 
     void Awake()
     {
@@ -20,8 +26,12 @@ public class BannerAds : MonoBehaviour , IUnityAdsLoadListener , IUnityAdsShowLi
 #endif
 
         Advertisement.Banner.SetPosition(BannerPosition.TOP_CENTER);
+
+        //Google
+        bannerView = new BannerView("AD_UNIT_ID", AdSize.Banner, AdPosition.Bottom);
     }
 
+    #region UnityAds
     public void LoadBannerAds()
     {
         BannerLoadOptions options = new BannerLoadOptions
@@ -48,7 +58,24 @@ public class BannerAds : MonoBehaviour , IUnityAdsLoadListener , IUnityAdsShowLi
     {
         Advertisement.Banner.Hide();
     }
+    #endregion
 
+    #region GoogleAds
+
+    public void LoadGoogleBannerAds()
+    {
+        bannerView.LoadAd(new AdRequest());
+    }
+
+    public void ShowGoogleBannerAds()
+    {
+        // Implement Google Banner Ad showing logic here
+        bannerView.Show();
+    }
+
+    #endregion
+
+    #region interfaceMethods
     private void OnBannerShown()
     {
        Debug.Log("Banner ad shown.");
@@ -106,5 +133,5 @@ public class BannerAds : MonoBehaviour , IUnityAdsLoadListener , IUnityAdsShowLi
     {
         AdsManager.Instace.isAdShowing = true;
     }
-
+    #endregion
 }

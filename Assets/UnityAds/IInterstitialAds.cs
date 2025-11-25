@@ -1,3 +1,4 @@
+using GoogleMobileAds.Api;
 using UnityEngine;
 using UnityEngine.Advertisements;
 
@@ -5,8 +6,12 @@ public class IInterstitialAds : MonoBehaviour , IUnityAdsLoadListener , IUnityAd
 {
     [SerializeField] private string _androidAdUnitId = "Interstitial_Android";
     [SerializeField] private string _iOSAdUnitId = "Interstitial_iOS";
-
     private string _adUnitId = null;
+
+
+    //Google
+    private InterstitialAd interstitialAd;
+    private const string AD_UNIT_ID = "ca-app-pub-3940256099942544/1033173712";
 
     void Awake()
     {
@@ -30,6 +35,54 @@ public class IInterstitialAds : MonoBehaviour , IUnityAdsLoadListener , IUnityAd
         LoadIntersitialAds();
     }
 
+    public void LoadGoogleIntersitialAds()
+    {
+        if (interstitialAd != null)
+        {
+            interstitialAd.Destroy();
+            interstitialAd = null;
+        }
+
+        InterstitialAd.Load(_adUnitId, new AdRequest(), (InterstitialAd ad, LoadAdError error) => {
+
+            if (error != null || ad == null)
+            {
+                Debug.LogError("Interstitial ad failed to load: " + error?.GetMessage());
+                return;
+            }
+
+            interstitialAd = ad;
+            Debug.Log("Interstitial ad loaded");
+
+
+            interstitialAd.OnAdFullScreenContentClosed += () =>
+            {
+                Debug.Log("Interstitial ad closed");
+                AdsManager.Instace.InvokeAdClosed();
+                LoadGoogleIntersitialAds(); // Preload the next ad
+            };
+
+            interstitialAd.OnAdFullScreenContentFailed += (error) =>
+            {
+                Debug.Log("Interstitial ad failed to show: " + error.GetMessage());
+            };
+        });
+
+    }
+
+    public void ShowGoogleIntersitialAds()
+    {
+        if (interstitialAd != null && interstitialAd.CanShowAd())
+        {
+            interstitialAd.Show();
+        }
+        else
+        {
+            Debug.Log("Interstitial ad not ready");
+        }
+    }
+
+    #region interfaceMethods
     public void OnUnityAdsAdLoaded(string placementId)
     {
         Debug.Log("Interstitial ad loaded: " + placementId);
@@ -59,7 +112,9 @@ public class IInterstitialAds : MonoBehaviour , IUnityAdsLoadListener , IUnityAd
     public void OnUnityAdsShowComplete(string placementId, UnityAdsShowCompletionState showCompletionState)
     {
       Debug.Log("Interstitial ad completed: " + placementId + " - " + showCompletionState.ToString());
+        AdsManager.Instace.InvokeAdClosed();
         AdsManager.Instace.isAdShowing = false;
         AdsManager.Instace.bannerAds.ShowBannerAds();
     }
+    #endregion
 }

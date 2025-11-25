@@ -1,3 +1,4 @@
+using GoogleMobileAds.Api;
 using UnityEngine;
 using UnityEngine.Advertisements;
 public class InitializeAds : MonoBehaviour , IUnityAdsInitializationListener
@@ -19,12 +20,18 @@ public class InitializeAds : MonoBehaviour , IUnityAdsInitializationListener
                 _gameId = _androidGameId; //for testing in editor
 #endif
 
+        InitializeUnityAds();
+        InitializeGoogleAds();
+    }
+
+    private void InitializeUnityAds()
+    {
         if (!Advertisement.isInitialized && Advertisement.isSupported)
         {
-            Advertisement.Initialize(_gameId, _testMode,this);
+            Advertisement.Initialize(_gameId, _testMode, this);
         }
-
     }
+
     public void OnInitializationComplete()
     {
        Debug.Log("Unity Ads initialization complete.");
@@ -33,5 +40,19 @@ public class InitializeAds : MonoBehaviour , IUnityAdsInitializationListener
     public void OnInitializationFailed(UnityAdsInitializationError error, string message)
     {
        Debug.LogError($"Unity Ads Initialization Failed: {error.ToString()} - {message}");
+    }
+
+    private void InitializeGoogleAds()
+    {
+        MobileAds.Initialize((InitializationStatus initstatus) =>
+        {
+            if (initstatus == null)
+            {
+                Debug.LogError("Google Mobile Ads initialization failed.");
+                return;
+            }
+
+            Debug.Log("Google Mobile Ads initialization complete.");
+        });
     }
 }

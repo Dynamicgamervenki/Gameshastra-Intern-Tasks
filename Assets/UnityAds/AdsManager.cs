@@ -1,3 +1,5 @@
+using GoogleMobileAds.Api;
+using System;
 using UnityEngine;
 
 public class AdsManager : MonoBehaviour
@@ -7,8 +9,9 @@ public class AdsManager : MonoBehaviour
     public RewardedAds rewardedAds;
     public BannerAds bannerAds;
     public bool isAdShowing = false;
-
     public static AdsManager Instace { get; private set; }
+
+    public event Action AdClosed;
 
     private void Awake()
     {
@@ -23,9 +26,18 @@ public class AdsManager : MonoBehaviour
         }
 
         interstitialAds.LoadIntersitialAds();
+        interstitialAds.LoadGoogleIntersitialAds();
+
         rewardedAds.LoadRewardedAds();
+        rewardedAds.LoadGoogleRewardedAd();
+
         bannerAds.LoadBannerAds();
+        bannerAds.LoadGoogleBannerAds();
     }
 
-   
+    public void InvokeAdClosed()
+    {
+        AdClosed?.Invoke();
+    }
+
 }
