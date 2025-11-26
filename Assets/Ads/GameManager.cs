@@ -1,5 +1,6 @@
 using DG.Tweening.Core.Easing;
 using System;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -12,6 +13,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         player = FindFirstObjectByType<Cube>();
+        statusLabel.text = $"Network: {adNetwork}, Type: {adType}";
     }
 
     private void OnEnable()
@@ -55,6 +57,17 @@ public class GameManager : MonoBehaviour
                         break;
                 }
                 break;
+            case AdNetwork.FacebookAds:
+                switch (adType)
+                {
+                    case AdType.Interstitial:
+                        AdsManager.Instace.interstitialAds.ShowFacebookIntersitialAds();
+                        break;
+                    case AdType.Rewarded:
+                        AdsManager.Instace.rewardedAds.ShowFacebookRewardedAds();
+                        break;
+                }
+                break;
         }
     }
 
@@ -63,12 +76,26 @@ public class GameManager : MonoBehaviour
     {
         player.PlayerDead -= OnPlayerDead;
     }
+
+
+    [SerializeField] private TextMeshProUGUI statusLabel; 
+    public void OnNextOptionClicked()
+    {
+        adNetwork = (AdNetwork)(((int)adNetwork + 1) % System.Enum.GetValues(typeof(AdNetwork)).Length);
+        adType = (AdType)(((int)adType + 1) % System.Enum.GetValues(typeof(AdType)).Length);
+        if (statusLabel != null)
+        {
+            statusLabel.text = $"Network: {adNetwork}, Type: {adType}";
+        }
+        Debug.Log($"Selected Ad Network: {adNetwork}, Ad Type: {adType}");
+    }
 }
 
 public enum AdNetwork
 {
     UnityAds,
-    GoogleAds
+    GoogleAds,
+    FacebookAds
 }
 
 public enum AdType

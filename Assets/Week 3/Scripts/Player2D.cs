@@ -1,6 +1,4 @@
 using DG.Tweening;
-using Unity.Android.Gradle;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;

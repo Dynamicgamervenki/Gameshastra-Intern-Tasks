@@ -27,17 +27,28 @@ public class AdsManager : MonoBehaviour
 
         interstitialAds.LoadIntersitialAds();
         interstitialAds.LoadGoogleIntersitialAds();
+        interstitialAds.LoadFacebookIntersitialAds();
 
         rewardedAds.LoadRewardedAds();
         rewardedAds.LoadGoogleRewardedAd();
+        rewardedAds.LoadFacebookRewardedAds();
+
+     //   Invoke(nameof(InvokeFbRewardAndInterstail), 2f);
 
         bannerAds.LoadBannerAds();
         bannerAds.LoadGoogleBannerAds();
+        bannerAds.LoadFacebookBannerAds(); 
     }
 
     public void InvokeAdClosed()
     {
         AdClosed?.Invoke();
     }
+
+    //private void InvokeFbRewardAndInterstail()
+    //{
+    //    rewardedAds.LoadFacebookRewardedAds();
+    //    interstitialAds.LoadFacebookIntersitialAds();
+    //}
 
 }

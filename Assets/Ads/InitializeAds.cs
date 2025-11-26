@@ -1,3 +1,4 @@
+using AudienceNetwork;
 using GoogleMobileAds.Api;
 using UnityEngine;
 using UnityEngine.Advertisements;
@@ -22,6 +23,7 @@ public class InitializeAds : MonoBehaviour , IUnityAdsInitializationListener
 
         InitializeUnityAds();
         InitializeGoogleAds();
+        InitializeFacebookAds();
     }
 
     private void InitializeUnityAds()
@@ -31,17 +33,6 @@ public class InitializeAds : MonoBehaviour , IUnityAdsInitializationListener
             Advertisement.Initialize(_gameId, _testMode, this);
         }
     }
-
-    public void OnInitializationComplete()
-    {
-       Debug.Log("Unity Ads initialization complete.");
-    }
-
-    public void OnInitializationFailed(UnityAdsInitializationError error, string message)
-    {
-       Debug.LogError($"Unity Ads Initialization Failed: {error.ToString()} - {message}");
-    }
-
     private void InitializeGoogleAds()
     {
         MobileAds.Initialize((InitializationStatus initstatus) =>
@@ -55,4 +46,20 @@ public class InitializeAds : MonoBehaviour , IUnityAdsInitializationListener
             Debug.Log("Google Mobile Ads initialization complete.");
         });
     }
+
+    private void InitializeFacebookAds()
+    {    
+         AudienceNetworkAds.Initialize();
+    }
+
+    public void OnInitializationComplete()
+    {
+       Debug.Log("Unity Ads initialization complete.");
+    }
+
+    public void OnInitializationFailed(UnityAdsInitializationError error, string message)
+    {
+       Debug.LogError($"Unity Ads Initialization Failed: {error.ToString()} - {message}");
+    }
+
 }

@@ -11,7 +11,13 @@ public class IInterstitialAds : MonoBehaviour , IUnityAdsLoadListener , IUnityAd
 
     //Google
     private InterstitialAd interstitialAd;
-    private const string AD_UNIT_ID = "ca-app-pub-3940256099942544/1033173712";
+    private const string AD_UNIT_ID = "ca-app-pub-3108923986010063/3861797927";
+   // private const string AD_UNIT_ID = "ca-app-pub-3940256099942544/1033173712";
+
+    //Facebook
+    private AudienceNetwork.InterstitialAd F_interstitialAd;
+    private bool isFacebookInterstitialAdLoaded;
+    private const string Fb_AdUnitId = "CAROUSEL_IMG_SQUARE_APP_INSTALL#4127762047553490_4127823520880676";
 
     void Awake()
     {
@@ -35,6 +41,7 @@ public class IInterstitialAds : MonoBehaviour , IUnityAdsLoadListener , IUnityAd
         LoadIntersitialAds();
     }
 
+    #region GoogleInterstitialAds
     public void LoadGoogleIntersitialAds()
     {
         if (interstitialAd != null)
@@ -81,6 +88,54 @@ public class IInterstitialAds : MonoBehaviour , IUnityAdsLoadListener , IUnityAd
             Debug.Log("Interstitial ad not ready");
         }
     }
+    #endregion
+
+    #region FacebookInterstitialAds
+    public void LoadFacebookIntersitialAds()
+    {
+        F_interstitialAd = new AudienceNetwork.InterstitialAd(Fb_AdUnitId);
+        F_interstitialAd.Register(this.gameObject);
+
+        // Set delegates to get notified on changes or when the user interacts with the ad.
+        F_interstitialAd.InterstitialAdDidLoad = (delegate () {
+            Debug.Log("Interstitial ad loaded.");
+            this.isFacebookInterstitialAdLoaded = true;
+        });
+        F_interstitialAd.InterstitialAdDidFailWithError = (delegate (string error) {
+            Debug.Log("Interstitial ad failed to load with error: " + error);
+        });
+        F_interstitialAd.InterstitialAdWillLogImpression = (delegate () {
+            Debug.Log("Interstitial ad logged impression.");
+        });
+        F_interstitialAd.InterstitialAdDidClick = (delegate () {
+            Debug.Log("Interstitial ad clicked.");
+        });
+
+        this.F_interstitialAd.interstitialAdDidClose = (delegate () {
+            Debug.Log("Interstitial ad did close.");
+            AdsManager.Instace.InvokeAdClosed();
+            if (this.F_interstitialAd != null)
+            {
+                this.F_interstitialAd.Dispose();
+            }
+        });
+
+        // Initiate the request to load the ad.
+        F_interstitialAd.LoadAd();
+    }
+
+    public void ShowFacebookIntersitialAds()
+    {
+        if (this.isFacebookInterstitialAdLoaded && this.F_interstitialAd != null)
+        {
+            this.F_interstitialAd.Show();
+        }
+        else
+        {
+            Debug.Log("Interstitial ad not loaded.");
+        }
+    }
+    #endregion
 
     #region interfaceMethods
     public void OnUnityAdsAdLoaded(string placementId)

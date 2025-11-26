@@ -12,6 +12,10 @@ public class RewardedAds : MonoBehaviour , IUnityAdsShowListener , IUnityAdsLoad
     private const string AD_UNIT_ID = "ca-app-pub-3940256099942544/5224354917";
     RewardedAd rewardedAd;
 
+    //Facebook
+    private const string Fb_AdId = "VID_HD_9_16_39S_APP_INSTALL#4127762047553490_4127824017547293";
+    private AudienceNetwork.RewardedVideoAd rewardedVideoAd;
+
     void Awake()
     {
 #if UNITY_IOS
@@ -34,6 +38,7 @@ public class RewardedAds : MonoBehaviour , IUnityAdsShowListener , IUnityAdsLoad
         LoadRewardedAds();
     }
 
+    #region GoogleRewardedAds
     public void ShowGoogleRewardedAds()
     {
         if (rewardedAd != null && rewardedAd.CanShowAd())
@@ -82,7 +87,58 @@ public class RewardedAds : MonoBehaviour , IUnityAdsShowListener , IUnityAdsLoad
             };
         });
     }
+    #endregion
 
+    #region FacebookRewardedAds
+
+    public void LoadFacebookRewardedAds()
+    {
+        // Create the rewarded video unit with a placement ID (generate your own on the Facebook app settings).
+        // Use different ID for each ad placement in your app.
+        this.rewardedVideoAd = new AudienceNetwork.RewardedVideoAd(Fb_AdId);
+
+        this.rewardedVideoAd.Register(this.gameObject);
+
+        // Set delegates to get notified on changes or when the user interacts with the ad.
+        this.rewardedVideoAd.RewardedVideoAdDidLoad = (delegate () {
+            Debug.Log("RewardedVideo ad loaded.");
+        });
+        this.rewardedVideoAd.RewardedVideoAdDidFailWithError = (delegate (string error) {
+            Debug.Log("RewardedVideo ad failed to load with error: " + error);
+        });
+        this.rewardedVideoAd.RewardedVideoAdWillLogImpression = (delegate () {
+            Debug.Log("RewardedVideo ad logged impression.");
+        });
+        this.rewardedVideoAd.RewardedVideoAdDidClick = (delegate () {
+            Debug.Log("RewardedVideo ad clicked.");
+        });
+
+        this.rewardedVideoAd.RewardedVideoAdDidClose = (delegate () {
+            Debug.Log("Rewarded video ad did close.");
+            AdsManager.Instace.InvokeAdClosed();
+            if (this.rewardedVideoAd != null)
+            {
+                this.rewardedVideoAd.Dispose();
+            }
+        });
+
+        // Initiate the request to load the ad.
+        this.rewardedVideoAd.LoadAd();
+    }
+
+    public void ShowFacebookRewardedAds()
+    {
+        if (this.rewardedVideoAd.IsValid())
+        {
+            this.rewardedVideoAd.Show();
+        }
+        else
+        {
+            Debug.Log("Rewarded video ad not loaded. Please try again later.");
+        }
+    }
+
+    #endregion
 
     #region interfaceMethods
     public void OnUnityAdsAdLoaded(string placementId)
