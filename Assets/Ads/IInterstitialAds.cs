@@ -54,24 +54,23 @@ public class IInterstitialAds : MonoBehaviour , IUnityAdsLoadListener , IUnityAd
 
             if (error != null || ad == null)
             {
-                Debug.LogError("Interstitial ad failed to load: " + error?.GetMessage());
+                Debug.LogError("Google Interstitial ad failed to load: " + error?.GetMessage());
                 return;
             }
 
             interstitialAd = ad;
-            Debug.Log("Interstitial ad loaded");
-
+            Debug.Log("Google Interstitial ad loaded");
 
             interstitialAd.OnAdFullScreenContentClosed += () =>
             {
-                Debug.Log("Interstitial ad closed");
+                Debug.Log("Google Interstitial ad closed");
                 AdsManager.Instace.InvokeAdClosed();
                 LoadGoogleIntersitialAds(); // Preload the next ad
             };
 
             interstitialAd.OnAdFullScreenContentFailed += (error) =>
             {
-                Debug.Log("Interstitial ad failed to show: " + error.GetMessage());
+                Debug.LogWarning("Google Interstitial ad failed to show: " + error.GetMessage());
             };
         });
 

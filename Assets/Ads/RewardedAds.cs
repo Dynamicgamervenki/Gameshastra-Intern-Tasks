@@ -29,7 +29,7 @@ public class RewardedAds : MonoBehaviour , IUnityAdsShowListener , IUnityAdsLoad
 
     public void LoadRewardedAds()
     {
-       Advertisement.Load(_adUnitId);
+       Advertisement.Load(_adUnitId,this);
     }
 
     public void ShowRewardedAds()
