@@ -23,7 +23,9 @@ public class InitializeAds : MonoBehaviour , IUnityAdsInitializationListener
 
         InitializeUnityAds();
         InitializeGoogleAds();
+#if !UNITY_EDITOR
         InitializeFacebookAds();
+#endif
     }
 
     private void InitializeUnityAds()

@@ -31,13 +31,15 @@ public class AdsManager : MonoBehaviour
 
         rewardedAds.LoadRewardedAds();
         rewardedAds.LoadGoogleRewardedAd();
-    //    rewardedAds.LoadFacebookRewardedAds();
+        //    rewardedAds.LoadFacebookRewardedAds();
 
+#if !UNITY_EDITOR
         Invoke(nameof(InvokeFbRewardAndInterstail), 2f);
+        bannerAds.LoadFacebookBannerAds(); 
+#endif
 
         bannerAds.LoadBannerAds();
         bannerAds.LoadGoogleBannerAds();
-        bannerAds.LoadFacebookBannerAds(); 
     }
 
     public void InvokeAdClosed()

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 public class Inventory
 {
@@ -12,8 +13,8 @@ public class Inventory
     public Inventory()
     {
          items = new List<Item>();
-        AddToList(new Item { itemType = ItemType.HeaalthPotion,quantity = 1});
-        AddToList(new Item { itemType = ItemType.Weapon,quantity = 1});
+        //AddToList(new Item { itemType = ItemType.HeaalthPotion,quantity = 1});
+       // AddToList(new Item { itemType = ItemType.Weapon,quantity = 1});
        // Testing();
     }
 
@@ -66,8 +67,19 @@ public class Inventory
         items.Add(item);
     }
 
+    public bool itemsAddedFromSaveData = false;
     public List<Item> GetItemsList() {
+        //return items;
+        if(!itemsAddedFromSaveData)
+        {
+            foreach(Item i in SaveManager.Instace.GetItemsFromSave())
+            {
+                items.Add(i);
+            }
+            itemsAddedFromSaveData = true;
+        }
         return items;
+
     }
 
     public int GetItemQuantity(Item item)

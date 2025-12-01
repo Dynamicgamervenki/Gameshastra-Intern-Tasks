@@ -47,6 +47,8 @@ public class Cube : MonoBehaviour
     {
         health = new Resource(100);
         inventory = new Inventory();
+        Debug.LogWarning(inventory.itemsAddedFromSaveData);
+        SaveManager.Instace.inventory = inventory;
 
         if(!AdsManager.Instace.isAdShowing)
             StartCoroutine(ShowBannerAdAfterDelay(2f));
@@ -270,6 +272,7 @@ public class Cube : MonoBehaviour
     public void RestartLevel() => Invoke(nameof(RestartScene), 2f);
     private void RestartScene()
     {
+        SaveManager.Instace.SaveData();
         PlayerDead?.Invoke();
       //  SceneManager.LoadScene(leveltoLoad);
     }
