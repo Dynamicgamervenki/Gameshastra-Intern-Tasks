@@ -111,6 +111,7 @@ public class GameManager : MonoBehaviour
 
     public void LoadSettings(int SettingsSceneIndex)
     {
+        if (SaveManager.Instace) { SaveManager.Instace.SaveData(); }
         SceneManager.LoadScene(SettingsSceneIndex);
     }
 }

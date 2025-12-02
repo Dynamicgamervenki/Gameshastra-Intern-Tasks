@@ -1,4 +1,5 @@
 using System;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -23,7 +24,7 @@ public class Settings : MonoBehaviour
         MasterSlider.onValueChanged.RemoveListener(SoundMixerManager.Instance.SetMasterVolume);
         MusicSlider.onValueChanged.RemoveListener(SoundMixerManager.Instance.SetMusicVolume);
         SfxSlider.onValueChanged.RemoveListener(SoundMixerManager.Instance.SetSfxVolume);
-        if (AdsManager.Instace) { AdsManager.Instace.bannerAds.HideBannerAd();}
+        if (AdsManager.Instace) { AdsManager.Instace.bannerAds.LoadBannerAds();}
             
     }
 
@@ -34,6 +35,10 @@ public class Settings : MonoBehaviour
 
     public void Quit()
     {
-        Application.Quit();
+#if UNITY_EDITOR
+        EditorApplication.isPlaying = false;
+#else
+    Application.Quit();
+#endif
     }
 }

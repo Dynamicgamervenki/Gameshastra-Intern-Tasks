@@ -27,6 +27,7 @@ public class MainMenu : MonoBehaviour
 
     public void LoadSettings(int SettingsSceneIndex)
     {
+        if (SaveManager.Instace) { SaveManager.Instace.SaveData(); }
         SceneManager.LoadScene(SettingsSceneIndex);
     }
 

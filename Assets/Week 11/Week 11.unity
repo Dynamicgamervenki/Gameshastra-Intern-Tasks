@@ -2758,7 +2758,7 @@ RectTransform:
   m_Father: {fileID: 321994078}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -6378,7 +6378,7 @@ MonoBehaviour:
   weaponSocket: {fileID: 1938633545}
   gameInput: {fileID: 2038496833}
   inventoryUi: {fileID: 75389538}
-  leveltoLoad: 0
+  leveltoLoad: 1
 --- !u!54 &2038496831
 Rigidbody:
   m_ObjectHideFlags: 0

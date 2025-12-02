@@ -1,27 +1,86 @@
+# 🎮 Intern Tasks – **Gamshastra**
 
-# Intern Tasks - Gamshastra
+This repository contains all the tasks completed during my internship at **Gamshastra**, organized week-by-week.
 
-This repositry contains tasks done during my internship at Gamshastra
+---
 
-Week 1 to Week 6 Tasks 
------------------------
-Week 1 : 
-Mini-Project: Build a simple environment with movable objects (platforms, obstacles), incorporating basic input.
+## 📅 **Weekly Progress**
 
-Week 2 : 
-Design a simple level with a collection of moving platforms (some rotating, some moving back and forth) using arrays/lists
+### **🗓️ Week 1**
+**Mini-Project:**  
+Build a simple environment with movable objects (platforms, obstacles) and basic player input.
 
-Week 3 :
- Platformer character controller with jumping, collision, and environmental interaction (such as platforms moving).
+---
 
-Week 4 : 
-  Title screen with a button to start the game, UI elements to show the player’s score, and basic scene management
+### **🗓️ Week 2**
+**Level Design:**  
+Create a level containing various moving platforms (rotating, back-and-forth) using arrays/lists.
 
-Week 5 :
-Create an enemy class with inheritance and different enemy types (e.g., a base enemy, a patrolling enemy, and a charging enemy).
+---
 
-Week 6 : 
-Refactor a previously created game system (e.g., inventory or weapon system) using SOLID principles to improve extensibility.
+### **🗓️ Week 3**
+**Platformer Controller:**  
+Implement player movement, jumping, collision handling, and interaction with moving platforms.
 
-Week 7 :
-Create an enemy system with state transitions using coroutines (e.g., patrolling, chasing, attacking).
+---
+
+### **🗓️ Week 4**
+**UI & Scene Flow:**  
+- Title screen with a *Start Game* button  
+- Score UI  
+- Basic scene management
+
+---
+
+### **🗓️ Week 5**
+**Enemy System (OOP):**  
+Create an inheritance-based enemy structure:  
+- Base enemy  
+- Patrolling enemy  
+- Charging enemy  
+
+---
+
+### **🗓️ Week 6**
+**Refactoring (SOLID Principles):**  
+Refactor an existing system (Inventory/Weapon) to improve maintainability and extensibility.
+
+---
+
+### **🗓️ Week 7**
+**State-Based Enemy AI:**  
+Implement enemies with coroutine-driven states:  
+- Patrolling  
+- Chasing  
+- Attacking  
+
+---
+
+### **🗓️ Week 8**
+**Dynamic UI System:**  
+Build a functional UI that updates based on game events (score, health) with smooth animations.
+
+---
+
+### **🗓️ Week 9**
+**Design Patterns Studied:**  
+- Singleton  
+- Factory  
+- Observer  
+- Object Pool  
+- Command  
+- Event Dispatcher  
+
+---
+
+### **🗓️ Week 10**
+**Addressables – Asset Management Optimization:**  
+🔗 Repo: https://github.com/Dynamicgamervenki/-Asset-Management-Optimization
+
+---
+
+### **🗓️ Week 11**
+**Game Systems:**  
+- Pause Menu  
+- Settings Panel  
+- Save/Load system for player progress  
