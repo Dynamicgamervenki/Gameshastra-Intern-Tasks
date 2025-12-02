@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem.OnScreen;
 using UnityEngine.ProBuilder.MeshOperations;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,12 +14,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AdType adType;
     [SerializeField] private TextMeshProUGUI statusLabel; 
 
-
+ 
     private void Awake()
     {
         player = FindFirstObjectByType<Cube>();
-        statusLabel.text = $"Network: {adNetwork}, Type: {adType}";
         TempCode();
+
+        if (statusLabel) { statusLabel.text = $"Network: {adNetwork}, Type: {adType}"; }
     }
 
     private void OnEnable()
@@ -99,7 +101,7 @@ public class GameManager : MonoBehaviour
         GameObject Canvas = GameObject.Find("Canvas");
         if (Canvas == null) return;
         GameObject joyStick = Canvas.GetComponentInChildren<OnScreenStick>(true).gameObject;
-
+        if(joyStick == null) return;
 #if UNITY_EDITOR || UNITY_STANDALONE_WIN
         joyStick.SetActive(false);
 #else
@@ -107,7 +109,10 @@ public class GameManager : MonoBehaviour
 #endif
     }
 
-
+    public void LoadSettings(int SettingsSceneIndex)
+    {
+        SceneManager.LoadScene(SettingsSceneIndex);
+    }
 }
 
 public enum AdNetwork

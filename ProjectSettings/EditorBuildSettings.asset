@@ -26,6 +26,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Ads/UnityAdsDemo.unity
     guid: 7403fbab216c6274fb0bbf603cb1a260
+  - enabled: 1
+    path: Assets/Week 11/Week 11.unity
+    guid: 500acd62cd3c3f541bf0b6e88184db89
+  - enabled: 1
+    path: Assets/Week 11/Settings.unity
+    guid: dcc17ccf001c8b045b218353a5b515cf
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
